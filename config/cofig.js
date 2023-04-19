@@ -1,4 +1,4 @@
-const SECRET='55ChitChat';
-const PORT=8484;
+const SECRET = "55ChitChat";
+const PORT = 8484;
 
-export default{SECRET,PORT}
+export default { SECRET, PORT };

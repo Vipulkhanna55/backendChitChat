@@ -1,8 +1,8 @@
-export default{
-    dataBaseLogs(){
-       return {
-        success:"database connected successfully",
-        reject:"error while connecting database"
-       } 
-    }
-}
+export default {
+  dataBaseLogs() {
+    return {
+      success: "database connected successfully",
+      reject: "error while connecting database",
+    };
+  },
+};
