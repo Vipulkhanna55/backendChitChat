@@ -4,7 +4,7 @@ import { userModel } from "../../models";
 const createUser = async (request, response) => {
   try {
     const { firstName, lastName, gender, email, password } = request.body;
-    const userExists = await userModel.findOne({ where: { email } });
+    const userExists = await userModel.findOne({ where: { email:email } });
     if (userExists) {
       return response
         .status(409)
