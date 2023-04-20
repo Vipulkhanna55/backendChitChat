@@ -3,7 +3,7 @@ import { userModel } from "../../models";
 
 const createUser = async (request, response) => {
   try {
-    const { name, gender, email, password } = request.body;
+    const { firstName, lastName, gender, email, password } = request.body;
     const userExists = await userModel.findOne({ where: { email } });
     if (userExists) {
       return response
@@ -13,7 +13,8 @@ const createUser = async (request, response) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(password, salt);
     const newUser = await userModel.create({
-      name,
+      firstName,
+      lastName,
       gender,
       email,
       password: hashedPass
@@ -28,7 +29,7 @@ const createUser = async (request, response) => {
 };
 
 const updateUser = async (request, response) => {
-  const {name, email, password} = request.body;
+  const {firstName, lastName, email, password} = request.body;
   try {
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
@@ -36,7 +37,7 @@ const updateUser = async (request, response) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(password, salt);
-    await userModel.update({ name, email, password: hashedPass }, { where: { id: request.params.id }});
+    await userModel.update({ firstName, lastName, email, password: hashedPass }, { where: { id: request.params.id }});
     return response.status(200).send('User updated successfully');
   } catch (error) {
     console.log(error);

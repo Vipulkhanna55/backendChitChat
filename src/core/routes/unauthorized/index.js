@@ -1,4 +1,5 @@
-import signupRoute from './signup.js';
+import signup from './signup.js';
+import login from "./login.js";
 
 /**
  * @swagger
@@ -80,7 +81,8 @@ import signupRoute from './signup.js';
  */
 
 
-export default (app) => {
-    app.use('/', signupRoute);
-    return app;
+export default function (app) {
+  app.use('/v1/signup', signup);
+  app.use("/v1/login", login);
+  return app;
 }
