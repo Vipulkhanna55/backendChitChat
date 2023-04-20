@@ -1,13 +1,10 @@
-import express from 'express'
-import config from '../../config/cofig.js'
-import bodyParser from 'body-parser';
-import unauthorized from '../core/routes/unauthorized';
-import authorized from '../core/routes/authorized';
-import sequelize from '../core/database/database.js';
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
-
-const app=express();
+import express from "express";
+import config from "../../config/config.js";
+import bodyParser from "body-parser";
+import database from "../core/database/database.js";
+// import authorized from '../core/routes/index.js'
+import unauthorized from "../core/routes/unauthorized";
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 sequelize.sync();
