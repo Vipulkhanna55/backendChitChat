@@ -15,7 +15,6 @@ function onError(statusCode, message) {
 }
 function sendResponse(resObject, res) {
   if (resObject.type === "success") {
-    // console.log("-----------------------------------",resObject);
     const result = {
       status: resObject.type,
       message: resObject.message,
