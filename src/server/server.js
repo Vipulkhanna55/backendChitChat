@@ -4,10 +4,11 @@ import bodyParser from "body-parser";
 import database from "../core/database/database.js";
 import authorized from '../core/routes/authorized'
 import unauthorized from "../core/routes/unauthorized";
-import cors from 'cors'
+import cors from 'cors';
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
