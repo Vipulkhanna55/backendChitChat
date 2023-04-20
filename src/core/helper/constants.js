@@ -6,6 +6,8 @@ const ERROR = "Error while fetching data";
 const EMAIL_EXIST = "User with given email already exists";
 const CREATED_SUCCESSFULLY = "User created successfully";
 const UPDATED_SUCCESSFULLY = "User updated successfully";
+const DELETED_SUCCESSFULLY = "User deleted successfully";
+
 export default {
   EMAIL_EXIST,
   LOGIN_SUCCESSFULLY,
@@ -14,5 +16,6 @@ export default {
   USER_NOT_EXIST,
   ERROR,
   CREATED_SUCCESSFULLY,
-  UPDATED_SUCCESSFULLY
+  UPDATED_SUCCESSFULLY,
+  DELETED_SUCCESSFULLY
 };

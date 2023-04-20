@@ -13,7 +13,7 @@ import {
 const createUser = async (request, response) => {
   try {
     const { firstName, lastName, gender, email, password } = request.body;
-    if (!(validator.isEmail(email) && validator.isLocale(firstName) && validator.isLocale(firstName))) {
+    if (!(validator.isEmail(email) && validator.isLocale(firstName) && validator.isLocale(lastName))) {
       return sendResponse(onError(403, messageResponse.INVALID_INPUT), response);
     }
     const userExists = await userModel.findOne({ where: { email:email } });
@@ -68,18 +68,20 @@ const deleteUser = async (request, response) => {
         response.status(500).send(error.message);
       });
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Error in deleting user");
+    globalCatch(request,error)
+    return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 }
 
 const getUsers = async (request, response) => {
   try {
     const users = await userModel.findAll();
-    response.status(200).send(users);
+    return sendResponse(
+      onSuccess(200, "User List", users),response
+   )
   } catch (error) {
-    console.log(error);
-    response.status(500).send({ error: error.message });
+    globalCatch(request,error)
+    return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 }
 
