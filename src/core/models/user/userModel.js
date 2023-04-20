@@ -32,6 +32,10 @@ const User = sequelize.define("User", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  friends: {
+    type: DataTypes.ARRAY(DataTypes.UUID),
+    defaultValue: []
+  }
 },
 {
     freezeTableName: true
