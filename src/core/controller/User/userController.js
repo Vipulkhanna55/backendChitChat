@@ -13,6 +13,9 @@ import {
 const createUser = async (request, response) => {
   try {
     const { firstName, lastName, gender, email, password } = request.body;
+    if (!(validator.isEmail(email) && validator.isStrongPassword(password) && isLocale(firstName) && isLocale(firstName))) {
+      return sendResponse(onError(403, messageResponse.INVALID_INPUT), res);
+    }
     const userExists = await userModel.findOne({ where: { email:email } });
     if (userExists) {
       return sendResponse(onError(409, messageResponse.Email_Exist), response);
