@@ -1,3 +1,1 @@
-import logincontroller from "./loginConroller.js";
-
-export default logincontroller;
+export {default} from  "./loginController.js";

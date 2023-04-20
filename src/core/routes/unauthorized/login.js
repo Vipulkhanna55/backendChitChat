@@ -1,9 +1,6 @@
 import express from "express";
-import middleware from "../../middleware/middleware.js";
-import logincontroller from "../../controller/login/index.js";
+import {loginController} from "../../controller";
 const route = express.Router();
-route.use(middleware.loginValidator);
-
-route.post("/", logincontroller.logincontroller);
+route.post("/",loginController);
 
 export default route;

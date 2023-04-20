@@ -1,2 +1,2 @@
-import logincontroller from './login/index'
-export default {logincontroller}
+import loginController from './login'
+export {loginController}
