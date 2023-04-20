@@ -18,23 +18,23 @@ const createUser = async (request, response) => {
     }
     const userExists = await userModel.findOne({ where: { email:email } });
     if (userExists) {
-      return sendResponse(onError(409, messageResponse.Email_Exist), response);
+      return sendResponse(onError(409, messageResponse.EMAIL_EXIST), response);
     }
     const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = await userModel.create({
       firstName,
       lastName,
       gender,
       email,
-      password: hashedPass
+      password: hashedPassword
     });
    return sendResponse(
-      onSuccess(201, messageResponse.CreatedSuccessFully, newUser),response
+      onSuccess(201, messageResponse.CREATED_SUCCESSFULLY, newUser),response
    )
   } catch (error) {
     globalCatch(request,error)
-    return sendResponse(onError(500, messageResponse.Error), response);
+    return sendResponse(onError(500, messageResponse.ERROR), response);
 
   }
 };
@@ -47,12 +47,14 @@ const updateUser = async (request, response) => {
       return response.status(404).send('User not found');
     }
     const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(password, salt);
-    await userModel.update({ firstName, lastName, email, password: hashedPass }, { where: { id: request.params.id }});
-    return response.status(200).send('User updated successfully');
+    const hashedPassword = await bcrypt.hash(password, salt);
+    await userModel.update({ firstName, lastName, email, password: hashedPassword }, { where: { id: request.params.id }});
+    return sendResponse(
+      onSuccess(200, messageResponse.UPDATED_SUCCESSFULLY, newUser),response
+   )
   } catch (error) {
-    console.log(error);
-    response.status(500).send({ error: error.message });
+    globalCatch(request,error)
+    return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 }
 
