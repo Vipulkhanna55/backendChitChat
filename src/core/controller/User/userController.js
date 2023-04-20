@@ -1,14 +1,22 @@
 import bcrypt from "bcryptjs";
 import { userModel } from "../../models";
+import validator from "validator";
+
+import {
+  onSuccess,
+  onError,
+  sendResponse,
+  globalCatch,
+  messageResponse
+} from "../../helper";
 
 const createUser = async (request, response) => {
   try {
     const { firstName, lastName, gender, email, password } = request.body;
+    console.log("---------------------------",request.body);
     const userExists = await userModel.findOne({ where: { email:email } });
     if (userExists) {
-      return response
-        .status(409)
-        .json({ error: "User with given email already exists" });
+      return sendResponse(onError(409, messageResponse.Email_Exist), response);
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(password, salt);
@@ -19,12 +27,13 @@ const createUser = async (request, response) => {
       email,
       password: hashedPass
     });
-    response
-      .status(201)
-      .send({ message: "User created successfully", user: newUser });
+   return sendResponse(
+      onSuccess(201, messageResponse.CreatedSuccessFully, newUser),response
+   )
   } catch (error) {
-    console.log(error);
-    response.status(500).send({ error: error.message });
+    globalCatch(request,error)
+    return sendResponse(onError(500, messageResponse.Error), response);
+
   }
 };
 
