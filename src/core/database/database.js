@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import logger from "../helper/logger.js";
-const sequelize = new Sequelize("ChitChat", "postgres", "16122000", {
+const sequelize = new Sequelize("ChitChat", "postgres", "newPassword", {
   host: "localhost",
   dialect: "postgres",
 });
