@@ -36,10 +36,6 @@ const user = sequelize.define("user", {
   isAdmin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
-  },
-  friends: {
-    type: DataTypes.ARRAY(DataTypes.UUID),
-    defaultValue: []
   }
 },
 {
