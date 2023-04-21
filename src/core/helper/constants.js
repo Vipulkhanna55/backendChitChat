@@ -4,9 +4,9 @@ const INVALID_PASSWORD = "Invalid password entered";
 const USER_NOT_EXIST = "user does not exist";
 const ERROR = "Error while fetching data";
 const EMAIL_EXIST = "User with given email already exists";
-const CREATED_SUCCESSFULLY = "User created successfully";
-const UPDATED_SUCCESSFULLY = "User updated successfully";
-const DELETED_SUCCESSFULLY = "User deleted successfully";
+const CREATED_SUCCESS = "User created successfully";
+const UPDATED_SUCCESS = "User updated successfully";
+const DELETED_SUCCESS = "User deleted successfully";
 
 export default {
   EMAIL_EXIST,
@@ -15,7 +15,7 @@ export default {
   INVALID_PASSWORD,
   USER_NOT_EXIST,
   ERROR,
-  CREATED_SUCCESSFULLY,
-  UPDATED_SUCCESSFULLY,
-  DELETED_SUCCESSFULLY
+  CREATED_SUCCESS,
+  UPDATED_SUCCESS,
+  DELETED_SUCCESS
 };

@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
-const User = sequelize.define("User", {
+const user = sequelize.define("user", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -31,7 +31,7 @@ const User = sequelize.define("User", {
     allowNull: false,
   },
   profilePic: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   isAdmin: {
     type: DataTypes.BOOLEAN,
@@ -46,4 +46,4 @@ const User = sequelize.define("User", {
     freezeTableName: true
 });
 
-export default User;
+export default user;
