@@ -7,8 +7,8 @@ const EMAIL_EXIST = "User with given email already exists";
 const CREATED_SUCCESS = "User created successfully";
 const UPDATED_SUCCESS = "User updated successfully";
 const DELETED_SUCCESS = "User deleted successfully";
-const TOKEN_ERROR="No token provided";
-const AUTH_FAIL="Token authentication failed"
+const TOKEN_ERROR = "No token provided";
+const AUTH_FAIL = "Token authentication failed";
 
 export default {
   EMAIL_EXIST,
@@ -21,5 +21,5 @@ export default {
   UPDATED_SUCCESS,
   DELETED_SUCCESS,
   TOKEN_ERROR,
-  AUTH_FAIL
+  AUTH_FAIL,
 };

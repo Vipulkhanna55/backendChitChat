@@ -1,3 +1,4 @@
 import userController from "./User";
-import loginController from './login'
-export {loginController, userController}
+import loginController from "./login";
+
+export { loginController, userController };

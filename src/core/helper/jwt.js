@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "../../../config/config.js";
 import { onError, sendResponse } from "./responses.js";
-import {globalCatch} from "./globalCatch.js";
+import { globalCatch } from "./globalCatch.js";
 import messageResponse from "./constants.js";
 
 const createToken = (email, password) => {

@@ -5,14 +5,14 @@ const onSuccess = (statusCode, message, data) => {
     data,
     type: "success",
   };
-}
+};
 const onError = (statusCode, message) => {
   return {
     statusCode,
     message,
     type: "failure",
   };
-}
+};
 const sendResponse = (responseObject, response) => {
   if (responseObject.type === "success") {
     const result = {
@@ -27,5 +27,5 @@ const sendResponse = (responseObject, response) => {
     message: responseObject.message,
   };
   return response.status(responseObject.statusCode).json(error);
-}
+};
 export { onError, onSuccess, sendResponse };

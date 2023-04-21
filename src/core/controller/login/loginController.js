@@ -9,7 +9,7 @@ import {
   globalCatch,
   messageResponse,
   validator,
-  jwt
+  jwt,
 } from "../../helper";
 
 import bcrypt from "bcryptjs";

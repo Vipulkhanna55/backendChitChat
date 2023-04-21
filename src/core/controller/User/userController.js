@@ -6,14 +6,18 @@ import {
   sendResponse,
   globalCatch,
   messageResponse,
-  validator
+  validator,
 } from "../../helper";
 
 const createUser = async (request, response) => {
   try {
-    const { firstName, lastName, gender, email, password, profilePic } = request.body;
+    const { firstName, lastName, gender, email, password, profilePic } =
+      request.body;
     if (!validator.isSignupRequestValid(firstName, lastName, email, password)) {
-      return sendResponse(onError(403, messageResponse.INVALID_INPUT), response);
+      return sendResponse(
+        onError(403, messageResponse.INVALID_INPUT),
+        response
+      );
     }
     const userExists = await userModel.findOne({ where: { email: email } });
     if (userExists) {
@@ -27,7 +31,7 @@ const createUser = async (request, response) => {
       gender,
       email,
       password: hashedPassword,
-      profilePic
+      profilePic,
     });
     return sendResponse(
       onSuccess(201, messageResponse.CREATED_SUCCESS, newUser),
