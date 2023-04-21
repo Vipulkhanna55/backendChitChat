@@ -52,6 +52,6 @@ export default async (request, response) => {
   } catch (error) {
     globalCatch(request, error);
 
-    return sendResponse(onError(500, messageResponse.Error), response);
+    return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 };

@@ -11,7 +11,7 @@ import {
 
 const createUser = async (request, response) => {
   try {
-    const { firstName, lastName, gender, email, password } = request.body;
+    const { firstName, lastName, gender, email, password ,profilePic } = request.body;
     if (
       !(
         validator.validateEmail(email) ||
