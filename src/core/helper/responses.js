@@ -1,4 +1,4 @@
-function onSuccess(statusCode, message, data) {
+const onSuccess = (statusCode, message, data) => {
   return {
     statusCode,
     message,
@@ -6,26 +6,26 @@ function onSuccess(statusCode, message, data) {
     type: "success",
   };
 }
-function onError(statusCode, message) {
+const onError = (statusCode, message) => {
   return {
     statusCode,
     message,
     type: "failure",
   };
 }
-function sendResponse(resObject, res) {
-  if (resObject.type === "success") {
+const sendResponse = (responseObject, response) => {
+  if (responseObject.type === "success") {
     const result = {
-      status: resObject.type,
-      message: resObject.message,
-      data: resObject.data,
+      status: responseObject.type,
+      message: responseObject.message,
+      data: responseObject.data,
     };
-    return res.status(resObject.statusCode).json(result);
+    return response.status(responseObject.statusCode).json(result);
   }
   const error = {
-    status: resObject.type,
-    message: resObject.message,
+    status: responseObject.type,
+    message: responseObject.message,
   };
-  return res.status(resObject.statusCode).json(error);
+  return response.status(responseObject.statusCode).json(error);
 }
 export { onError, onSuccess, sendResponse };

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { userModel } from "../../models";
-import validator from "validator";
+import { validator } from "../../utils";
 import {
   onSuccess,
   onError,
@@ -11,7 +11,16 @@ import {
 
 const createUser = async (request, response) => {
   try {
-    const { firstName, lastName, gender, email, password, profilePic } = request.body;
+    const { firstName, lastName, gender, email, password } = request.body;
+    if (
+      !(
+        validator.validateEmail(email) ||
+        validator.checkName(firstName) ||
+        validator.checkName(lastName)
+      )
+    ) {
+      return sendResponse(onError(403, messageResponse.INVALID_INPUT), res);
+    }
     const userExists = await userModel.findOne({ where: { email: email } });
     if (userExists) {
       return sendResponse(onError(409, messageResponse.EMAIL_EXIST), response);
