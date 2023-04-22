@@ -3,11 +3,22 @@ import { commentController } from "../../controller";
 
 const router = express.Router();
 
+// create a new comment
 router.post("/", commentController.createComment);
-router.patch("/update/:id", commentController.updateComment);
-router.delete("/delete/:id", commentController.deleteOneComment);
-router.get("/:postId", commentController.getComments);
+
+// update a comment
+router.patch("/:id", commentController.updateComment);
+
+// delete a comment
+router.delete("/:id", commentController.deleteOneComment);
+
+// get all comments of a post
+router.get("/all/:postId", commentController.getComments);
+
+// get a single comment
 router.get("/:id", commentController.getOneComment);
-router.delete("/delete/:postId", commentController.deleteComments);
+
+// delete all comments of a post
+router.delete("/all/:postId", commentController.deleteComments);
 
 export default router;

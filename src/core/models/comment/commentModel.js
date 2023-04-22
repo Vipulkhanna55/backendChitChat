@@ -26,6 +26,5 @@ const comment = sequelize.define(
 );
 
 comment.belongsTo(user, { foreignKey: "userId" });
-// comment.belongsTo(post, { foreignKey: "postId" });
 
 export default comment;

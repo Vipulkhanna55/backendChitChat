@@ -1,36 +1,27 @@
 import { commentModel, userModel } from "../models";
 
-const create = async (newComment) => {
+const insert = async (newComment) => {
   return await commentModel.create(newComment);
 };
 
-const update = async (body, id) => {
-  return await commentModel.update(body, { where: { id: id } });
+const modify = async (body, id) => {
+  return await commentModel.update({body: body}, {where: {id: id}});
 };
 
-const findOne = async (id) => {
-  return await commentModel.findByPk(id);
+const findOne = async (query) => {
+  return await commentModel.findOne(query);
 };
 
-const findMany = async (postId) => {
-  return await commentModel.findAll({
-    where: { postId },
-    order: [["createdAt", "DESC"]],
-    include: [
-      {
-        model: userModel,
-        attributes: ["id", "firstName", "lastName", "profilePic"],
-      },
-    ],
-  });
+const findMany = async (query) => {
+  return await commentModel.findAll(query);
 };
 
-const remove = async (id) => {
-  return await commentModel.destroy({ where: { id: id } });
+const remove = async (query) => {
+  return await commentModel.destroy(query);
 };
 
-const removeMany = async (postId) => {
-  return await commentModel.destroy({ where: { postId: postId } });
+const removeMany = async (query) => {
+  return await commentModel.destroy(query);
 };
 
-export default { create, update, findOne, findMany, remove, removeMany };
+export default { insert, modify, findOne, findMany, remove, removeMany };
