@@ -1,4 +1,5 @@
 import userController from "./User";
 import loginController from "./login";
+import commentController from "./comment";
 
-export { loginController, userController };
+export { loginController, userController, commentController };
