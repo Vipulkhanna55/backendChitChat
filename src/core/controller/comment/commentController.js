@@ -35,7 +35,10 @@ const getComments = async (request, response) => {
 const getOneComment = async (request, response) => {
   try {
     const foundComment = await comment.findOne(request.params.id);
-    return sendResponse(onSuccess(200, "Found comment", foundComment), response);
+    return sendResponse(
+      onSuccess(200, "Found comment", foundComment),
+      response
+    );
   } catch (error) {
     globalCatch(request, error);
     return sendResponse(onError(500, messageResponse.ERROR), response);

@@ -30,7 +30,7 @@ const remove = async (id) => {
 };
 
 const removeMany = async (postId) => {
-  return await commentModel.destroy({ where: {postId: postId} });
+  return await commentModel.destroy({ where: { postId: postId } });
 };
 
 export default { create, update, findOne, findMany, remove, removeMany };
