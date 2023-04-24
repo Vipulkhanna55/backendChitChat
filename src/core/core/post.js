@@ -1,5 +1,3 @@
-import { QueryTypes } from "sequelize";
-import sequelize from "../database/database";
 import { postModel, userModel } from "../models";
 
 const post = {
