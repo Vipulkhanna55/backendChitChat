@@ -14,25 +14,12 @@ const post = {
   },
   async getAllPost(userId) {
     return await postModel.findAll({ where: { userId } });
-
   },
-  async updatePost(id,body,attachment){
-    return await postModel.update({body,attachment},{where:{id:id}});
-
+  async updatePost(id, body, attachment) {
+    return await postModel.update({ body, attachment }, { where: { id: id } });
   },
-  async deletePost(id){
-    return await postModel.destroy({where:{id:id}});
+  async deletePost(id) {
+    return await postModel.destroy({ where: { id: id } });
   },
-  async getComment(id){
-    // return await postModel.findAll({
-    //   include:[{
-    //     model:userModel,
-    //     required:true,
-    //   }]
-    // })
-      return await sequelize.query(`SELECT * from comment where postId=$1  `,['d3cfc52c-eb7a-44e8-bb18-0146b4c5d0bb'], { type: QueryTypes.SELECT });
-      
-
-  }
 };
 export default post;
