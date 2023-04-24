@@ -1,1 +1,1 @@
-export {default} from './postController';
+export { default } from "./postController";
