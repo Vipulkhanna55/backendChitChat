@@ -1,2 +1,2 @@
-import postModel from './post'
-export {postModel};
+import postModel from "./post";
+export { postModel };

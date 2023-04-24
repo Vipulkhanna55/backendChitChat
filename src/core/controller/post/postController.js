@@ -24,6 +24,7 @@ const savePost = async (request, response) => {
     return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 };
+
 const getPost = async (request, response) => {
   try {
     const { id } = request.query;
@@ -45,6 +46,7 @@ const getPost = async (request, response) => {
     return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 };
+
 const getAllPost = async (request, response) => {
   try {
     const { userId } = request.query;
@@ -64,6 +66,7 @@ const getAllPost = async (request, response) => {
     return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 };
+
 const updatePost = async (request, response) => {
   try {
     const { id } = request.params;
@@ -84,6 +87,7 @@ const updatePost = async (request, response) => {
     return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 };
+
 const deletePost = async (request, response) => {
   try {
     const { id } = request.params;
