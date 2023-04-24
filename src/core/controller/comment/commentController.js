@@ -12,7 +12,6 @@ const createComment = async (request, response) => {
   try {
     const { body, userId, postId } = request.body;
     const newComment = await comment.insert({ body, userId, postId });
-    console.log(newComment);
     return sendResponse(
       onSuccess(201, "comment created", newComment),
       response
