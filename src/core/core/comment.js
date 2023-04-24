@@ -5,7 +5,7 @@ const insert = async (newComment) => {
 };
 
 const modify = async (body, id) => {
-  return await commentModel.update({body: body}, {where: {id: id}});
+  return await commentModel.update({ body: body }, { where: { id: id } });
 };
 
 const findOne = async (query) => {

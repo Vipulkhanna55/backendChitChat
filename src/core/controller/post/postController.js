@@ -28,17 +28,20 @@ const savePost = async (request, response) => {
 const getPost = async (request, response) => {
   try {
     const { id } = request.query;
-    const data = await postModel.findOnePost(id);
-
+    const data = await postModel.countDocument(id);
     if (!data) {
       return sendResponse(
         onError(500, messageResponse.POST_NOT_FOUND),
         response
       );
     }
+    let postData = await postModel.getPostComments(id);
+    if (!postData.length) {
+      postData = await postModel.findOnePost(id);
+    }
 
     return sendResponse(
-      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, data.toJSON()),
+      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, postData),
       response
     );
   } catch (error) {
@@ -57,8 +60,9 @@ const getAllPost = async (request, response) => {
         response
       );
     }
+    let commentedPostData = await postModel.getCommentedPost(data);
     return sendResponse(
-      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, data),
+      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, commentedPostData),
       response
     );
   } catch (error) {
@@ -91,15 +95,17 @@ const updatePost = async (request, response) => {
 const deletePost = async (request, response) => {
   try {
     const { id } = request.params;
-    const data = await postModel.deletePost(id);
+    const getPostData = await postModel.countDocument(id);
     if (!data) {
       return sendResponse(
         onError(500, messageResponse.POST_NOT_FOUND),
         response
       );
     }
+    const deletedCommentData = await postModel.deletePostComments(id);
+    const deletedPostData = await postModel.deletePost(id);
     return sendResponse(
-      onSuccess(200, messageResponse.POST_DELETED_SUCCESS, data),
+      onSuccess(200, messageResponse.POST_DELETED_SUCCESS, deletedPostData),
       response
     );
   } catch (error) {
