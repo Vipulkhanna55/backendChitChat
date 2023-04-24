@@ -3,8 +3,13 @@ import { userController } from "../../controller";
 
 const router = express.Router();
 
-router.patch("/update/:id", userController.updateUser);
-router.delete("/delete/:id", userController.deleteUser);
-router.get("/users", userController.getUsers);
+// update a user
+router.patch("/:id", userController.updateUser);
+
+// delete a user
+router.delete("/:id", userController.deleteUser);
+
+// get all users
+router.get("/", userController.getUsers);
 
 export default router;

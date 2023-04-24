@@ -1,4 +1,6 @@
 import userModel from "./user";
 import likeModel from "./like";
+import commentModel from "./comment";
+import postModel from "./post";
 
-export default { userModel, likeModel };
+export { userModel, postModel, commentModel, likeModel };
