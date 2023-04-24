@@ -1,40 +1,35 @@
-import jwt from "jsonwebtoken";
+//Models
 import userModel from "../../models/user";
-import { validator } from "../../utils";
+
+//Helpers
 import {
   onSuccess,
   onError,
   sendResponse,
   globalCatch,
   messageResponse,
+  validator,
+  jwt,
 } from "../../helper";
-import config from "../../../../config/config.js";
+
 import bcrypt from "bcryptjs";
 
-export default async (request, response) => {
+const loginController = async (request, response) => {
   try {
     const { email, password } = request.body;
-
-    if (!(validator.validateEmail(email) && password.length)) {
+    if (!validator.isLoginRequestValid(email, password)) {
       return sendResponse(
         onError(403, messageResponse.INVALID_INPUT),
         response
       );
     }
-
     const userExist = (await userModel.findOne({ where: { email } })).toJSON();
-
     if (userExist) {
       const checker = bcrypt.compareSync(password, userExist["password"]);
-
       if (checker) {
-        const token = jwt.sign({ email, password }, config.SECRET, {
-          expiresIn: config.JWT_EXPIRY,
-        });
-
+        const token = jwt.createToken(email, password);
         return sendResponse(
           onSuccess(200, messageResponse.LOGIN_SUCCESSFULLY, token),
-
           response
         );
       } else {
@@ -51,7 +46,11 @@ export default async (request, response) => {
     }
   } catch (error) {
     globalCatch(request, error);
-
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
+
+export default loginController;
