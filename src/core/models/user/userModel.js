@@ -31,7 +31,7 @@ const user = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    profilePic: {
+    profilePicture: {
       type: DataTypes.TEXT('long')
     },
     isAdmin: {

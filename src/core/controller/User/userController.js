@@ -11,7 +11,7 @@ import {
 
 const createUser = async (request, response) => {
   try {
-    const { firstName, lastName, gender, email, password, profilePic } =
+    const { firstName, lastName, gender, email, password, profilePicture } =
       request.body;
     if (!validator.isSignupRequestValid(firstName, lastName, email, password)) {
       return sendResponse(
@@ -31,7 +31,7 @@ const createUser = async (request, response) => {
       gender,
       email,
       password: hashedPassword,
-      profilePic,
+      profilePicture,
     });
     return sendResponse(
       onSuccess(201, messageResponse.CREATED_SUCCESS, newUser),
@@ -48,7 +48,7 @@ const createUser = async (request, response) => {
 
 const updateUser = async (request, response) => {
   try {
-    const { firstName, lastName, email, password, profilePic } = request.body;
+    const { firstName, lastName, email, password, profilePicture } = request.body;
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
       return response.status(404).send("User not found");
@@ -56,7 +56,7 @@ const updateUser = async (request, response) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     await userModel.update(
-      { firstName, lastName, email, password: hashedPassword, profilePic },
+      { firstName, lastName, email, password: hashedPassword, profilePicture },
       { where: { id: request.params.id } }
     );
     return sendResponse(
