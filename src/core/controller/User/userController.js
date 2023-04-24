@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { userModel } from "../../models";
+import userModel from "../../models/user";
 import {
   onSuccess,
   onError,

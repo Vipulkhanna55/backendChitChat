@@ -1,3 +1,4 @@
 import userModel from "./user";
+import likeModel from "./like";
 
-export { userModel };
+export default { userModel, likeModel };
