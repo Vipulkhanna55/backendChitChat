@@ -1,8 +1,8 @@
 import jwt from '../helper/jwt.js';
 
-const verifyJWT = (app) => {
+const middleware = (app) => {
     app.use((request, response, next) => {jwt.jwtVerify(request, response, next)});
     return app;
 }
 
-export default verifyJWT;
+export default middleware;
