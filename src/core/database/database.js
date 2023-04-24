@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   databaseConfig.DATABASE_PASSWORD,
   {
     host: databaseConfig.DATABASE_HOST,
-    dialect: databaseConfig.DATABASE
+    dialect: databaseConfig.DATABASE,
   }
 );
 
