@@ -19,8 +19,7 @@ const post = sequelize.define(
     userId: {
       type: DataTypes.STRING,
       allowNull: false,
-    }
-  
+    },
   },
 
   {
