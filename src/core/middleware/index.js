@@ -1,2 +1,1 @@
-import middleware from "./middleware";
-export default middleware
+export {default} from './middleware';

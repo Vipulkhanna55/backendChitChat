@@ -5,7 +5,7 @@ import database from "../core/database/database.js";
 import authorized from "../core/routes/authorized";
 import unauthorized from "../core/routes/unauthorized";
 import cors from "cors";
-import jwt from '../core/helper/jwt.js';
+import jwtVerify from '../core/middleware';
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 database.sync({ alter: true });
 
 unauthorized(app);
-app.use((request, response, next) => {jwt.jwtVerify(request, response, next)});
+jwtVerify(app);
 authorized(app);
 
 
