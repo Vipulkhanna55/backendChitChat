@@ -35,9 +35,13 @@ const getPost = async (request, response) => {
         response
       );
     }
-    let postData = await postModel.getPostComments(id);
+    const commentData = await postModel.getPostComments(id);
+    const likeData = await postModel.getPostLikes(id);
+    let postData = commentData.concat(likeData);
     if (!postData.length) {
       postData = await postModel.findOnePost(id);
+    } else {
+      postData = { commentData, likeDta: likeData };
     }
 
     return sendResponse(
@@ -60,9 +64,13 @@ const getAllPost = async (request, response) => {
         response
       );
     }
-    let commentedPostData = await postModel.getAllPosts(data);
+    const userCommentData = await postModel.getAllPostsComments(data);
+    const userLikeData = await postModel.getAllPostsLikes(data);
     return sendResponse(
-      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, commentedPostData),
+      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, {
+        userCommentData,
+        userLikeData,
+      }),
       response
     );
   } catch (error) {

@@ -5,4 +5,10 @@ export default {
       reject: "error while connecting database",
     };
   },
+  mailLogs() {
+    return {
+      success: "email sent successfully",
+      reject: "error while sending email",
+    };
+  },
 };
