@@ -1,4 +1,4 @@
-import { commentModel, userModel } from "../models";
+import {commentModel} from "../models";
 
 const insert = async (newComment) => {
   return await commentModel.create(newComment);

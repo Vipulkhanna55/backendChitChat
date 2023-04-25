@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { userModel } from "../../models";
+import{userModel, postModel, commentModel, likeModel} from "../../models";
 import {
   onSuccess,
   onError,
@@ -74,6 +74,9 @@ const updateUser = async (request, response) => {
 
 const deleteUser = async (request, response) => {
   try {
+    const deleteLikes = await likeModel.destroy({where: { userId: request.params.id}});
+    const deletedComments = await commentModel.destroy({where: { userId: request.params.id}});
+    const deletePosts = await postModel.destroy({where: { userId: request.params.id}});
     const deletedUser = await userModel.destroy({
       where: { id: request.params.id },
     });

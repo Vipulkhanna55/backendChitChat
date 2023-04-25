@@ -15,11 +15,7 @@ const comment = sequelize.define(
     },
     body: {
       type: DataTypes.STRING,
-    },
-    postId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
+    }
   },
   {
     timestamps: true,
