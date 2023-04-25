@@ -9,7 +9,7 @@ import {
 
 const savePost = async (request, response) => {
   try {
-    const { body, attachment, userId } = request.body;
+    const { body,  userId ,attachment} = request.body;
     const userExist = await postModel.findOneUser(userId);
     if (!userExist) {
       return sendResponse(onError(500, messageResponse.INVALID_USER), response);
