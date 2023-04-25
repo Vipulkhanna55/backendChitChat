@@ -1,6 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 import user from "../user";
+import post from "../post";
+
 
 const comment = sequelize.define(
   "comment",
@@ -13,11 +15,7 @@ const comment = sequelize.define(
     },
     body: {
       type: DataTypes.STRING,
-    },
-    postId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
+    }
   },
   {
     timestamps: true,
@@ -26,5 +24,6 @@ const comment = sequelize.define(
 );
 
 comment.belongsTo(user, { foreignKey: "userId" });
+comment.belongsTo(post,{ foreignKey: "postId" });
 
 export default comment;

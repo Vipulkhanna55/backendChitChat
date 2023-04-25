@@ -1,11 +1,11 @@
-import { commentModel, userModel } from "../models";
+import {commentModel} from "../models";
 
 const insert = async (newComment) => {
   return await commentModel.create(newComment);
 };
 
 const modify = async (body, id) => {
-  return await commentModel.update({body: body}, {where: {id: id}});
+  return await commentModel.update({ body: body }, { where: { id: id } });
 };
 
 const findOne = async (query) => {

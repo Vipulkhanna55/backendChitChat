@@ -1,4 +1,4 @@
-import comment from "../../core/comment.js";
+import {commentModel} from "../../core";
 import {
   onSuccess,
   onError,
@@ -11,7 +11,7 @@ import {userModel} from "../../models";
 const createComment = async (request, response) => {
   try {
     const { body, userId, postId } = request.body;
-    const newComment = await comment.insert({ body, userId, postId });
+    const newComment = await commentModel.insert({ body, userId, postId });
     return sendResponse(
       onSuccess(201, "comment created", newComment),
       response
@@ -25,7 +25,7 @@ const createComment = async (request, response) => {
 const getComments = async (request, response) => {
   try {
     const {postId} = request.params;
-    const comments = await comment.findMany({
+    const comments = await commentModel.findMany({
         where: { postId },
         order: [["createdAt", "DESC"]],
         include: [
@@ -44,7 +44,7 @@ const getComments = async (request, response) => {
 
 const getOneComment = async (request, response) => {
   try {
-    const foundComment = await comment.findOne({where: { id: request.params.id } });
+    const foundComment = await commentModel.findOne({where: { id: request.params.id } });
     return sendResponse(
       onSuccess(200, "Found comment", foundComment),
       response
@@ -58,7 +58,7 @@ const getOneComment = async (request, response) => {
 const updateComment = async (request, response) => {
   try {
     const {body} = request.body;
-    const updatedComment = await comment.modify(body, request.params.id);
+    const updatedComment = await commentModel.modify(body, request.params.id);
     return sendResponse(
       onSuccess(200, "Comment updated", updatedComment),
       response
@@ -71,7 +71,7 @@ const updateComment = async (request, response) => {
 
 const deleteComments = async (request, response) => {
   try {
-    const deletedComments = await comment.removeMany({ where: { postId: request.params.postId } });
+    const deletedComments = await commentModel.removeMany({ where: { postId: request.params.postId } });
     return sendResponse(
       onSuccess(200, "Comments deleted", deletedComments),
       response
@@ -84,7 +84,7 @@ const deleteComments = async (request, response) => {
 
 const deleteOneComment = async (request, response) => {
   try {
-    const deletedComment = await comment.remove({ where: { id: request.params.id } });
+    const deletedComment = await commentModel.remove({ where: { id: request.params.id } });
     return sendResponse(
       onSuccess(200, "Comment deleted", deletedComment),
       response
