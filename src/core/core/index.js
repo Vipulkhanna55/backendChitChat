@@ -1,2 +1,4 @@
 import postModel from "./post";
-export { postModel };
+import relationshipModel from "./relationship";
+
+export { postModel, relationshipModel };
