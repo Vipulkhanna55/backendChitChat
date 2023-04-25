@@ -12,9 +12,9 @@ const relationship = sequelize.define(
       primaryKey: true,
     },
     isRequestAccepted: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-    }
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     freezeTableName: true,
