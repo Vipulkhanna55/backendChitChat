@@ -1,3 +1,4 @@
+import zlib from "zlib";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
@@ -14,7 +15,16 @@ const post = sequelize.define(
       type: DataTypes.STRING,
     },
     attachment: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT("long"),
+      set(value) {
+        const compress = zlib.deflateSync(value).toString("base64");
+        this.setDataValue("attachment", compress);
+      },
+      get() {
+        const attachment = this.getDataValue("attachment");
+        const unCompress = zlib.inflateSync(Buffer.from(attachment, "base64"));
+        return unCompress.toString();
+      },
     },
     userId: {
       type: DataTypes.STRING,

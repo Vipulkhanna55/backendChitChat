@@ -3,6 +3,7 @@ import sequelize from "../../database/database.js";
 import user from "../user";
 import post from "../post";
 
+
 const comment = sequelize.define(
   "comment",
   {
@@ -23,6 +24,6 @@ const comment = sequelize.define(
 );
 
 comment.belongsTo(user, { foreignKey: "userId" });
-comment.belongsTo(post, { foreignKey: "postId" });
+comment.belongsTo(post,{ foreignKey: "postId" });
 
 export default comment;

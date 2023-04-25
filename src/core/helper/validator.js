@@ -14,7 +14,7 @@ const isSignupRequestValid = (firstName, lastName, email, password) => {
   const isLastNameValid = /^[a-z,.'-]+$/i.test(lastName);
   const isEmailValid = emailRegex.test(email);
   const isPasswordValid = passwordRegex.test(password);
-  return isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid;
+  return (isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid);
 };
 
 export default { isLoginRequestValid, isSignupRequestValid };
