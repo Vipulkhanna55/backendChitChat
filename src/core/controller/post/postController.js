@@ -9,7 +9,7 @@ import {
 
 const savePost = async (request, response) => {
   try {
-    const { body,  userId ,attachment} = request.body;
+    const { body, userId, attachment } = request.body;
     const userExist = await postModel.findOneUser(userId);
     if (!userExist) {
       return sendResponse(onError(500, messageResponse.INVALID_USER), response);
@@ -28,7 +28,7 @@ const savePost = async (request, response) => {
 const getPost = async (request, response) => {
   try {
     const { id } = request.query;
-    const data = await postModel.countDocument(id);
+    const data = await postModel.isPostExist(id);
     if (!data) {
       return sendResponse(
         onError(500, messageResponse.POST_NOT_FOUND),
@@ -60,7 +60,7 @@ const getAllPost = async (request, response) => {
         response
       );
     }
-    let commentedPostData = await postModel.getCommentedPost(data);
+    let commentedPostData = await postModel.getAllPosts(data);
     return sendResponse(
       onSuccess(200, messageResponse.POST_FOUND_SUCCESS, commentedPostData),
       response
@@ -95,7 +95,7 @@ const updatePost = async (request, response) => {
 const deletePost = async (request, response) => {
   try {
     const { id } = request.params;
-    const getPostData = await postModel.countDocument(id);
+    const getPostData = await postModel.isPostExist(id);
     if (!data) {
       return sendResponse(
         onError(500, messageResponse.POST_NOT_FOUND),
