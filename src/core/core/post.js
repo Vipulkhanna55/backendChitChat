@@ -14,7 +14,7 @@ const post = {
   },
 
   async getAllPost(userId) {
-    return await postModel.findAll({ where: { userId } });
+    return await postModel.findAll({ where: { userId }, raw: true });
   },
 
   async updatePost(id, body, attachment) {
@@ -29,13 +29,7 @@ const post = {
     return await commentModel.findAll({
       where: { postId },
       order: [["createdAt", "DESC"]],
-      include: [
-        {
-          model: postModel,
-          as: "post",
-          attributes: ["body", "attachment", "createdAt", "userId"],
-        },
-      ],
+      attributes: ["id", "body", "userId"],
     });
   },
 
@@ -45,10 +39,8 @@ const post = {
 
   async getAllPostsComments(postData) {
     const userPostData = postData.map(async (singlePostData) => {
-      const postComments = await this.getPostComments(
-        singlePostData.toJSON().id
-      );
-      return postComments.length ? postComments : singlePostData;
+      const comments = await this.getPostComments(singlePostData.id);
+      return { ...singlePostData, comments };
     }, this);
     const toSaveData = await Promise.all(userPostData);
     return toSaveData;
@@ -62,20 +54,14 @@ const post = {
     return await likeModel.findAll({
       where: { postId },
       order: [["createdAt", "DESC"]],
-      include: [
-        {
-          model: postModel,
-          as: "post",
-          attributes: ["body", "attachment", "createdAt", "userId"],
-        },
-      ],
+      attributes: ["id", "userId"],
     });
   },
-  
+
   async getAllPostsLikes(postData) {
     const userPostData = postData.map(async (singlePostData) => {
-      const postLikes = await this.getPostLikes(singlePostData.toJSON().id);
-      return postLikes.length ? postLikes : singlePostData;
+      const likes = await this.getPostLikes(singlePostData.id);
+      return { ...singlePostData, likes };
     }, this);
 
     const toSaveData = await Promise.all(userPostData);

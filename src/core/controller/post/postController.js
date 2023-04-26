@@ -35,14 +35,10 @@ const getPost = async (request, response) => {
         response
       );
     }
-    const commentData = await postModel.getPostComments(id);
-    const likeData = await postModel.getPostLikes(id);
-    let postData = commentData.concat(likeData);
-    if (!postData.length) {
-      postData = await postModel.findOnePost(id);
-    } else {
-      postData = { commentData, likeDta: likeData };
-    }
+    const comment = await postModel.getPostComments(id);
+    const like = await postModel.getPostLikes(id);
+    const post = await postModel.findOnePost(id);
+    const postData = { ...post.dataValues, comment, like };
 
     return sendResponse(
       onSuccess(200, messageResponse.POST_FOUND_SUCCESS, postData),
@@ -65,12 +61,9 @@ const getAllPost = async (request, response) => {
       );
     }
     const userCommentData = await postModel.getAllPostsComments(data);
-    const userLikeData = await postModel.getAllPostsLikes(data);
+    const userData = await postModel.getAllPostsLikes(userCommentData);
     return sendResponse(
-      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, {
-        userCommentData,
-        userLikeData,
-      }),
+      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, userData),
       response
     );
   } catch (error) {
@@ -104,7 +97,7 @@ const deletePost = async (request, response) => {
   try {
     const { id } = request.params;
     const getPostData = await postModel.isPostExist(id);
-    if (!data) {
+    if (!getPostData) {
       return sendResponse(
         onError(500, messageResponse.POST_NOT_FOUND),
         response

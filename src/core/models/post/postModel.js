@@ -16,6 +16,7 @@ const post = sequelize.define(
     },
     attachment: {
       type: DataTypes.TEXT("long"),
+      allowNull: true,
       set(value) {
         const compress = zlib.deflateSync(value).toString("base64");
         this.setDataValue("attachment", compress);
