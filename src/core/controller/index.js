@@ -3,6 +3,7 @@ import loginController from "./login";
 import likeController from "./like";
 import commentController from "./comment";
 import postController from "./post";
+import authController from "./authentication";
 
 export {
   loginController,
@@ -10,4 +11,5 @@ export {
   postController,
   commentController,
   likeController,
+  authController
 };

@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import{userModel, postModel, commentModel, likeModel} from "../../models";
+import { userModel, postModel, commentModel, likeModel } from "../../models";
 import {
   onSuccess,
   onError,
@@ -34,7 +34,9 @@ const createUser = async (request, response) => {
       profilePicture,
     });
     return sendResponse(
-      onSuccess(201, messageResponse.CREATED_SUCCESS, newUser),
+      onSuccess(201, messageResponse.CREATED_SUCCESS, {
+        newUser,
+      }),
       response
     );
   } catch (error) {
@@ -48,7 +50,8 @@ const createUser = async (request, response) => {
 
 const updateUser = async (request, response) => {
   try {
-    const { firstName, lastName, email, password, profilePicture } = request.body;
+    const { firstName, lastName, email, password, profilePicture } =
+      request.body;
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
       return response.status(404).send("User not found");
@@ -74,9 +77,15 @@ const updateUser = async (request, response) => {
 
 const deleteUser = async (request, response) => {
   try {
-    const deleteLikes = await likeModel.destroy({where: { userId: request.params.id}});
-    const deletedComments = await commentModel.destroy({where: { userId: request.params.id}});
-    const deletePosts = await postModel.destroy({where: { userId: request.params.id}});
+    const deleteLikes = await likeModel.destroy({
+      where: { userId: request.params.id },
+    });
+    const deletedComments = await commentModel.destroy({
+      where: { userId: request.params.id },
+    });
+    const deletePosts = await postModel.destroy({
+      where: { userId: request.params.id },
+    });
     const deletedUser = await userModel.destroy({
       where: { id: request.params.id },
     });

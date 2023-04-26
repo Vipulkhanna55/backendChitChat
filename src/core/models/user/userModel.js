@@ -32,7 +32,10 @@ const user = sequelize.define(
       allowNull: false,
     },
     profilePicture: {
-      type: DataTypes.TEXT('long')
+      type: DataTypes.TEXT("long"),
+    },
+    secret: {
+      type: DataTypes.STRING,
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
