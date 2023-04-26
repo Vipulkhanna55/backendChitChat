@@ -10,11 +10,22 @@ const post = {
   },
 
   async findOnePost(id) {
-    return await postModel.findByPk(id);
+    return await postModel.findByPk(id, {
+      attributes: {
+        exclude: ["updatedAt"],
+      },
+    });
   },
 
   async getAllPost(userId) {
-    return await postModel.findAll({ where: { userId }, raw: true });
+    return await postModel.findAll({
+      where: { userId },
+      order: [["createdAt", "DESC"]],
+      attributes: {
+        exclude: ["updatedAt"],
+      },
+      raw: true,
+    });
   },
 
   async updatePost(id, body, attachment) {
