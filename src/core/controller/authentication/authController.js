@@ -19,6 +19,7 @@ const validate = async (request, response) => {
       secret: user.secret,
       encoding: "base32",
       token: code,
+      window: 1
     });
     if (!isValid) {
       return sendResponse(
