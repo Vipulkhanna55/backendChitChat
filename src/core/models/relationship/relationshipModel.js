@@ -21,7 +21,7 @@ const relationship = sequelize.define(
   }
 );
 
-relationship.belongsTo(user, { foreignKey: "followerId" });
+relationship.belongsTo(user, { foreignKey: "followerUserId" });
 relationship.belongsTo(user, { foreignKey: "followedUserId" });
 
 export default relationship;

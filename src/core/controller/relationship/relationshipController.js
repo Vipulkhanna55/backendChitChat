@@ -9,9 +9,9 @@ import {
 
 const createRelationship = async (request, response) => {
   try {
-    const { followerId, followedUserId } = request.body;
+    const { followerUserId, followedUserId } = request.body;
     const newRelationship = await relationshipModel.insert({
-      followerId,
+      followerUserId,
       followedUserId,
     });
     return sendResponse(
@@ -26,9 +26,9 @@ const createRelationship = async (request, response) => {
 
 const getRelationship = async (request, response) => {
   try {
-    const { followerId } = request.params;
+    const { followerUserId } = request.params;
     const relationship = await relationshipModel.getOne({
-      where: { followerId },
+      where: { followerUserId },
     });
     return sendResponse(
       onSuccess(200, "relationship found", relationship),
@@ -58,9 +58,9 @@ const getAllRelationships = async (request, response) => {
 
 const removeRelationship = async (request, response) => {
   try {
-    const { followerId } = request.params;
+    const { followerUserId } = request.params;
     const removedRelationship = await relationshipModel.remove({
-      where: { followerId },
+      where: { followerUserId },
     });
     return sendResponse(
       onSuccess(200, "removed relationship", removedRelationship),
