@@ -8,7 +8,7 @@ const connectSocket = (app) => {
   const users = [];
   const socketConnected = [];
   io.on("connection", (socket) => {
-    socket.on("newUser", (user) => {
+    socket.on("newUser", user => {
       try {
         users[socket.id] = user.name;
         socketConnected[user.id] = socket.id;
@@ -19,6 +19,7 @@ const connectSocket = (app) => {
     });
     socket.on("message", async (messageInput) => {
       try {
+        console.log(messageInput);
         const { senderId, receiverId, body } = messageInput;
         const receiveChat = await chatController.saveUsersChat(
           senderId,
@@ -45,6 +46,7 @@ const connectSocket = (app) => {
       }
     });
     socket.on("disconnect", (message) => {
+      console.log("Disconnected");
       delete users[socket.id];
     });
   });
