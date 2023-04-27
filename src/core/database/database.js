@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import logger from "../helper/logger.js";
+import {logger} from "../helper";
 import databaseConfig from "../../../config/config.js";
 
 const sequelize = new Sequelize(
@@ -15,10 +15,10 @@ const sequelize = new Sequelize(
 sequelize
   .authenticate()
   .then(() => {
-    console.log(logger.dataBaseLogs().success);
+    logger.info("Database connected successfully");
   })
   .catch(() => {
-    console.log(logger.dataBaseLogs().reject);
+    logger.error("Error in connection with database");
   });
 
 export default sequelize;

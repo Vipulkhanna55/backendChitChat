@@ -6,6 +6,7 @@ import authorized from "../core/routes/authorized";
 import unauthorized from "../core/routes/unauthorized";
 import cors from "cors";
 import middleware from '../core/middleware';
+import {logger} from '../core/helper';
 
 const app = express();
 
@@ -20,4 +21,4 @@ middleware(app);
 authorized(app);
 
 
-app.listen(config.PORT,()=>{console.log(`listening on port ${config.PORT}`)});
+app.listen(config.PORT,()=>{logger.info(`listening on port ${config.PORT}`)});
