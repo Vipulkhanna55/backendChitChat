@@ -28,7 +28,7 @@ const validate = async (request, response) => {
       );
     }
     return sendResponse(
-      onSuccess(200, messageResponse.LOGIN_SUCCESSFULLY),
+      onSuccess(200, messageResponse.LOGIN_SUCCESSFULLY, user),
       response
     );
   } catch (error) {
