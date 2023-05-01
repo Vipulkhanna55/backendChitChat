@@ -69,11 +69,11 @@ const getAllRelationships = async (request, response) => {
       where: { followedUserId },
     });
     const followers = relationships.map(async (elem) => {
-      const foll = await userModel.findOne({
+      const follower = await userModel.findOne({
         where: { id: elem.dataValues.followerUserId },
         attributes: ["id", "firstName", "lastName", "profilePicture"],
       });
-      return foll.dataValues;
+      return follower.dataValues;
     });
     return sendResponse(
       onSuccess(200, "relationships found", {
