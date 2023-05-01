@@ -6,10 +6,20 @@ import {
   globalCatch,
   messageResponse,
 } from "../../helper";
+import { userModel } from "../../models";
 
 const createRelationship = async (request, response) => {
   try {
     const { followerUserId, followedUserId } = request.body;
+    const relationshipExists = await relationshipModel.findOne({
+      where: { followerUserId, followedUserId },
+    });
+    if (relationshipExists) {
+      return sendResponse(
+        onError(409, "relationship already exists"),
+        response
+      );
+    }
     const newRelationship = await relationshipModel.insert({
       followerUserId,
       followedUserId,
@@ -26,12 +36,24 @@ const createRelationship = async (request, response) => {
 
 const getRelationship = async (request, response) => {
   try {
-    const { followerUserId } = request.params;
+    const { id } = request.params;
     const relationship = await relationshipModel.getOne({
-      where: { followerUserId },
+      where: { id },
+    });
+    const followerUser = await userModel.findOne({
+      where: { id: relationship.followerUserId },
+      attributes: ["firstName", "lastName", "profilePicture"],
+    });
+    const followedUser = await userModel.findOne({
+      where: { id: relationship.followedUserId },
+      attributes: ["firstName", "lastName", "profilePicture"],
     });
     return sendResponse(
-      onSuccess(200, "relationship found", relationship),
+      onSuccess(200, "relationship found", {
+        relationship,
+        follower: followerUser,
+        followed: followedUser,
+      }),
       response
     );
   } catch (error) {
@@ -46,8 +68,18 @@ const getAllRelationships = async (request, response) => {
     const relationships = await relationshipModel.getMany({
       where: { followedUserId },
     });
+    const followers = relationships.map(async (elem) => {
+      const foll = await userModel.findOne({
+        where: { id: elem.dataValues.followerUserId },
+        attributes: ["id", "firstName", "lastName", "profilePicture"],
+      });
+      return foll.dataValues;
+    });
     return sendResponse(
-      onSuccess(200, "relationships found", relationships),
+      onSuccess(200, "relationships found", {
+        followedUserId: followedUserId,
+        followers: await Promise.all(followers),
+      }),
       response
     );
   } catch (error) {

@@ -13,6 +13,6 @@ router.delete("/:followerUserId", relationshipController.removeRelationship);
 router.get("/all/:followedUserId", relationshipController.getAllRelationships);
 
 // get a single relationship
-router.get("/:followerUserId", relationshipController.getRelationship);
+router.get("/:id", relationshipController.getRelationship);
 
 export default router;
