@@ -7,7 +7,7 @@ const saveChat = async (inputChat) => {
 const getUsersChat = async (senderId, receiverId) => {
   return await chatModel.findAll({
     where: { [Op.and]: [{ senderId, receiverId }] },
-    order: [["createdAt", "DESC"]],
+    order: [["createdAt", "ASC"]],
     raw: true,
   });
 };

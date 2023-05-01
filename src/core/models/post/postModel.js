@@ -1,6 +1,7 @@
 import zlib from "zlib";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
+import user from "../user/userModel.js";
 
 const post = sequelize.define(
   "post",
@@ -17,18 +18,9 @@ const post = sequelize.define(
     attachment: {
       type: DataTypes.TEXT("long"),
       allowNull: true,
-      set(value) {
-        const compress = zlib.deflateSync(value).toString("base64");
-        this.setDataValue("attachment", compress);
-      },
-      get() {
-        const attachment = this.getDataValue("attachment");
-        const unCompress = zlib.inflateSync(Buffer.from(attachment, "base64"));
-        return unCompress.toString();
-      },
     },
     userId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: false,
     },
   },
@@ -38,5 +30,7 @@ const post = sequelize.define(
     timestamps: true,
   }
 );
+
+post.belongsTo(user, { foreignKey: "userId" });
 
 export default post;

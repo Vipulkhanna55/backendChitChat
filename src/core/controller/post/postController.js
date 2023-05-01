@@ -92,6 +92,20 @@ const updatePost = async (request, response) => {
     return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 };
+const getFeedPosts = async (request, response) => {
+  try {
+    const feedPosts = await postModel.findFeed();
+    const feedCommentData = await postModel.getAllPostsComments(feedPosts);
+    const feedData = await postModel.getAllPostsLikes(feedCommentData);
+    return sendResponse(
+      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, feedData),
+      response
+    );
+  } catch (error) {
+    globalCatch(request, error);
+    return sendResponse(onError(500, messageResponse.ERROR), response);
+  }
+};
 
 const deletePost = async (request, response) => {
   try {
@@ -115,4 +129,11 @@ const deletePost = async (request, response) => {
   }
 };
 
-export default { savePost, getPost, getAllPost, updatePost, deletePost };
+export default {
+  savePost,
+  getPost,
+  getAllPost,
+  updatePost,
+  deletePost,
+  getFeedPosts,
+};

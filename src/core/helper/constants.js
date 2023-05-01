@@ -16,6 +16,8 @@ const POST_FOUND_SUCCESS = "Post found successfully";
 const POST_UPDATED_SUCCESS = "Post updated successfully";
 const POST_DELETED_SUCCESS = "Successfully deleted post ";
 const MAIL_SUBJECT = "Welcome to 55 chitchat family !";
+const CHAT_FETCH_SUCCESS = "Successfully fetched chat";
+const CHAT_FETCH_FAILED = "Failed to fetch chat";
 
 export default {
   EMAIL_EXIST,
@@ -36,4 +38,6 @@ export default {
   POST_UPDATED_SUCCESS,
   POST_DELETED_SUCCESS,
   MAIL_SUBJECT,
+  CHAT_FETCH_SUCCESS,
+  CHAT_FETCH_FAILED,
 };

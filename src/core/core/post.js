@@ -40,7 +40,13 @@ const post = {
     return await commentModel.findAll({
       where: { postId },
       order: [["createdAt", "DESC"]],
-      attributes: ["id", "body", "userId"],
+      attributes: ["id", "body", "createdAt"],
+      include: [
+        {
+          model: userModel,
+          attributes: ["firstName", "lastName", "profilePicture"],
+        },
+      ],
     });
   },
 
@@ -65,7 +71,13 @@ const post = {
     return await likeModel.findAll({
       where: { postId },
       order: [["createdAt", "DESC"]],
-      attributes: ["id", "userId"],
+      attributes: ["id"],
+      include: [
+        {
+          model: userModel,
+          attributes: ["firstName", "lastName"],
+        },
+      ],
     });
   },
 
@@ -77,6 +89,21 @@ const post = {
 
     const toSaveData = await Promise.all(userPostData);
     return toSaveData;
+  },
+  async findFeed() {
+    return await postModel.findAll({
+      order: [["createdAt", "DESC"]],
+      attributes: {
+        exclude: ["updatedAt"],
+      },include: [
+        {
+          model: userModel,
+          attributes: ["firstName", "lastName", "profilePicture"],
+        },
+      ],
+      
+      raw: true,
+    });
   },
 };
 export default post;
