@@ -1,4 +1,4 @@
-import {likeModel} from "../../core";
+import { likeModel } from "../../core";
 import {
   onSuccess,
   onError,
@@ -46,7 +46,9 @@ const deleteLikes = async (request, response) => {
 
 const deleteOneLike = async (request, response) => {
   try {
-    const deletedLike = await likeModel.remove({ where: { id: request.params.id } });
+    const deletedLike = await likeModel.remove({
+      where: { id: request.params.id },
+    });
     return sendResponse(onSuccess(200, "like deleted", deletedLike), response);
   } catch (error) {
     globalCatch(request, error);

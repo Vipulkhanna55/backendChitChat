@@ -29,7 +29,9 @@ const post = {
   },
 
   async updatePost(id, body, attachment) {
-    return await postModel.update({ body, attachment }, "id", { where: { id } });
+    return await postModel.update({ body, attachment }, "id", {
+      where: { id },
+    });
   },
 
   async deletePost(id) {

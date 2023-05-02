@@ -6,7 +6,7 @@ import {
   globalCatch,
   messageResponse,
 } from "../../helper";
-import {logger} from "../../helper";
+import { logger } from "../../helper";
 
 const chatController = {
   async saveUsersChat(senderId, receiverId, body) {

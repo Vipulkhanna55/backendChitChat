@@ -5,5 +5,11 @@ import postModel from "./post";
 import relationshipModel from "./relationship";
 import chatModel from "./chat";
 
-export { userModel, postModel, commentModel, relationshipModel, likeModel, chatModel };
-
+export {
+  userModel,
+  postModel,
+  commentModel,
+  relationshipModel,
+  likeModel,
+  chatModel,
+};

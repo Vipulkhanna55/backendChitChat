@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import {logger} from "../helper";
+import { logger } from "../helper";
 import databaseConfig from "../../../config/config.js";
 
 const sequelize = new Sequelize(

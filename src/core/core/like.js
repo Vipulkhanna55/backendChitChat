@@ -1,4 +1,4 @@
-import {likeModel} from '../models';
+import { likeModel } from "../models";
 
 const insert = async (newLike) => {
   return await likeModel.create(newLike);
