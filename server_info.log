@@ -1,0 +1,48 @@
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-27T07:03:24.642Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-27T07:03:24.668Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T04:47:53.950Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T04:47:53.974Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T04:51:46.975Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T04:51:47.000Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:49:12.171Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:49:12.195Z"}
+{"level":"error","message":"Error in catch with route / with method POST and with message Cannot read properties of null (reading 'toJSON')","timestamp":"2023-04-28T05:49:22.408Z"}
+{"level":"error","message":"Error in catch with route / with method POST and with message Cannot read properties of null (reading 'toJSON')","timestamp":"2023-04-28T05:49:23.544Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:54:22.494Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:54:22.522Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:54:24.277Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:54:24.303Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:54:28.235Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:54:28.269Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:55:08.914Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:55:08.942Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:55:20.229Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:55:20.257Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:55:27.630Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:55:27.662Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:56:07.918Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:56:07.950Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:56:10.840Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:56:10.870Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:56:16.581Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:56:16.609Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T05:56:17.661Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T05:56:17.685Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T06:01:13.726Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T06:01:13.748Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T06:03:10.206Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T06:03:10.236Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T06:03:13.805Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T06:03:13.834Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T06:03:19.869Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T06:03:19.892Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T06:03:22.064Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T06:03:22.088Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T06:06:39.582Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T06:06:39.613Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T06:47:17.103Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T06:47:17.126Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T08:10:18.205Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T08:10:18.227Z"}
+{"level":"info","message":"listening on port 8484","timestamp":"2023-04-28T08:10:22.711Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2023-04-28T08:10:22.746Z"}

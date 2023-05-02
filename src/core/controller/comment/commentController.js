@@ -31,7 +31,7 @@ const getComments = async (request, response) => {
         include: [
           {
             model: userModel,
-            attributes: ["id", "firstName", "lastName", "profilePic"],
+            attributes: ["id", "firstName", "lastName", "profilePicture"],
           },
         ],
       });
