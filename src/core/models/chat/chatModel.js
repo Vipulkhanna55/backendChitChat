@@ -1,10 +1,8 @@
-import zlib from "zlib";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
-import user from "../user/userModel.js";
 
-const post = sequelize.define(
-  "post",
+const chat = sequelize.define(
+  "chat",
   {
     id: {
       type: DataTypes.UUID,
@@ -12,25 +10,27 @@ const post = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    body: {
-      type: DataTypes.STRING,
-    },
-    attachment: {
-      type: DataTypes.TEXT("long"),
-      allowNull: true,
-    },
-    userId: {
+    senderId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
+    receiverId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    body: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Date.now(),
+    },
   },
-
   {
     freezeTableName: true,
-    timestamps: true,
+    timestamps: false,
   }
 );
-
-post.belongsTo(user, { foreignKey: "userId" });
-
-export default post;
+export default chat;

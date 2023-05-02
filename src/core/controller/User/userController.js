@@ -13,6 +13,9 @@ import {
   globalCatch,
   messageResponse,
   validator,
+  sendMail,
+  successSignUpText,
+  htmlBody,
 } from "../../helper";
 
 const createUser = async (request, response) => {
@@ -39,6 +42,12 @@ const createUser = async (request, response) => {
       password: hashedPassword,
       profilePicture,
     });
+    sendMail(
+      messageResponse.MAIL_SUBJECT,
+      successSignUpText(firstName + " " + lastName),
+      htmlBody("signUpSuccess"),
+      email
+    );
     return sendResponse(
       onSuccess(201, messageResponse.CREATED_SUCCESS, newUser),
       response
