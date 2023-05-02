@@ -13,20 +13,12 @@ import morgan from 'morgan';
 const app = express();
 const server = connectSocket(app);
 
-
-app.get('/dummy', (req, res) => {
-    console.log("+++++++++++++++++++++ Here dumy");
-    res.status(200).send("here in dummy route")
-})
-
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
 app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 database.sync({ alter: true });
-
-
 
 unauthorized(app);
 middleware(app);
