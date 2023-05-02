@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { relationshipModel } from "../../core";
 import {
   onSuccess,
@@ -65,9 +66,9 @@ const getRelationship = async (request, response) => {
 const getAllRelationships = async (request, response) => {
   try {
     const { followedUserId } = request.params;
-    const relationships = await relationshipModel.getMany({
-      where: { followedUserId },
-    });
+    const relationships = await relationshipModel.getMany({where:{
+      [Op.and]: [{ followedUserId }, { isRequestAccepted: true }],
+    }});
     const followers = relationships.map(async (elem) => {
       const follower = await userModel.findOne({
         where: { id: elem.dataValues.followerUserId },
