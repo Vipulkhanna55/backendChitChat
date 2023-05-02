@@ -7,6 +7,7 @@ import unauthorized from "../core/routes/unauthorized";
 import cors from "cors";
 import middleware from "../core/middleware";
 import connectSocket from "../core/helper/socket/chat.js";
+import morgan from 'morgan'
 
 const app = express();
 const server = connectSocket(app);
@@ -14,6 +15,7 @@ const server = connectSocket(app);
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('tiny'));
 
 database.sync({ alter: true });
 
