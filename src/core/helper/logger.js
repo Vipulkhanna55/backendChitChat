@@ -1,23 +1,24 @@
-export default {
-  dataBaseLogs() {
-    return {
-      success: "database connected successfully",
-      reject: "error while connecting database",
-    };
-  },
-  mailLogs() {
-    return {
-      success: "email sent successfully",
-      reject: "error while sending email",
-    };
-  },
-  chatLogs() {
-    return {
-      failure: "Error while saving chat",
-      fetchError: "Error while fetching chat data",
-      sendChat: "Error while sending chat",
-      fetchChat: "Error while fetching chat",
-      connection: "Error in new connection",
-    };
-  },
-};
+import { createLogger, transports, format } from "winston";
+
+const logger = createLogger({
+  transports: [
+    new transports.File({
+      filename: "server_info.log",
+      level: "info",
+      format: format.combine(
+        format.timestamp(),
+        format.json()
+      )
+    }),
+    new transports.File({
+      filename: "server_error.log",
+      level: "error",
+      format: format.combine(
+        format.timestamp(),
+        format.json()
+      )
+    })
+  ]
+});
+
+export default logger;

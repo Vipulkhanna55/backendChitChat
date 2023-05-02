@@ -10,6 +10,12 @@ const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
 const DATABASE = process.env.DATABASE;
 const DATABASE_HOST = process.env.DATABASE_HOST;
 const JWT_EXPIRY = process.env.JWT_EXPIRY;
+const MAIL_EMAIL = process.env.MAIL_EMAIL;
+const MAIL_PASSWORD = process.env.MAIL_PASSWORD;
+const EMAIL_FROM = process.env.EMAIL_FROM;
+const MAIL_HOST = process.env.MAIL_HOST;
+const MAIL_PORT = process.env.MAIL_PORT;
+const MAIL_SERVICE = process.env.MAIL_SERVICE;
 
 export default {
   SECRET,

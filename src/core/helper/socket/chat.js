@@ -1,7 +1,8 @@
 import { chatController } from "../../controller";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import logger from "../logger";
+import logger from "../logger.js";
+
 const connectSocket = (app) => {
   const server = createServer(app);
   const io = new Server(server, { cors: { origin: "*" } });
@@ -14,7 +15,7 @@ const connectSocket = (app) => {
         socketConnected[user.id] = socket.id;
         socket.to(socketConnected[user.id]).emit("online", "online");
       } catch (error) {
-        console.log(logger.chatLogs().connection);
+        logger.error("Error in new connection", error);
       }
     });
     socket.on("message", async (messageInput) => {
@@ -27,11 +28,11 @@ const connectSocket = (app) => {
         );
         socket.to(socketConnected[receiverId]).emit("receive", receiveChat);
       } catch (error) {
-        console.log(logger.chatLogs().sendChat, error);
+        logger.error("Error while sending chat", error);
       }
     });
     socket.on("disconnect", (message) => {
-      console.log("Disconnected");
+      logger.info("Disconnected");
       delete users[socket.id];
     });
   });

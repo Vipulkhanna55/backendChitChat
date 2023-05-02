@@ -118,6 +118,22 @@ const deleteUser = async (request, response) => {
   }
 };
 
+const getUser = async (request, response) => {
+  try {
+    const user = await userModel.findByPk(request.params.id);
+    if (!user) {
+      return response.status(404).send("User not found");
+    }
+    return sendResponse(onSuccess(200, "User details", user), response);
+  } catch (error) {
+    globalCatch(request, error);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
+  }
+};
+
 const getUsers = async (request, response) => {
   try {
     const users = await userModel.findAll();
@@ -131,4 +147,4 @@ const getUsers = async (request, response) => {
   }
 };
 
-export default { createUser, deleteUser, updateUser, getUsers };
+export default { createUser, deleteUser, updateUser, getUsers, getUser };

@@ -6,7 +6,7 @@ import {
   globalCatch,
   messageResponse,
 } from "../../helper";
-import logger from "../../helper/logger";
+import {logger} from "../../helper";
 
 const chatController = {
   async saveUsersChat(senderId, receiverId, body) {
@@ -14,7 +14,7 @@ const chatController = {
       const savedChat = await saveChat({ senderId, receiverId, body });
       return savedChat.toJSON();
     } catch (error) {
-      console.log(logger.chatLogs().failure);
+      logger.error("Error while saving chat");
     }
   },
   async getChat(request, response) {

@@ -12,4 +12,7 @@ router.delete("/:id", userController.deleteUser);
 // get all users
 router.get("/", userController.getUsers);
 
+// get a single user
+router.get("/:id", userController.getUser);
+
 export default router;
