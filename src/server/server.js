@@ -18,6 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 database.sync({ alter: true });
 
+app.get('/dummy', (req, res) => {
+    console.log("+++++++++++++++++++++ Here dumy");
+    res.status(200).send("here in dummy route")
+})
+
 unauthorized(app);
 middleware(app);
 authorized(app);
