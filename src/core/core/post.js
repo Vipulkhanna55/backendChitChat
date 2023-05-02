@@ -1,4 +1,4 @@
-import { commentModel, postModel, userModel } from "../models";
+import { commentModel, postModel, userModel, likeModel } from "../models";
 
 const post = {
   async findOneUser(userId) {
@@ -10,12 +10,24 @@ const post = {
   },
 
   async findOnePost(id) {
-    return await postModel.findByPk(id);
+    return await postModel.findByPk(id, {
+      attributes: {
+        exclude: ["updatedAt"],
+      },
+    });
   },
 
   async getAllPost(userId) {
-    return await postModel.findAll({ where: { userId } });
+    return await postModel.findAll({
+      where: { userId },
+      order: [["createdAt", "DESC"]],
+      attributes: {
+        exclude: ["updatedAt"],
+      },
+      raw: true,
+    });
   },
+
   async updatePost(id, body, attachment) {
     return await postModel.update({ body, attachment }, { where: { id } });
   },
@@ -28,11 +40,11 @@ const post = {
     return await commentModel.findAll({
       where: { postId },
       order: [["createdAt", "DESC"]],
+      attributes: ["id", "body", "createdAt", "userId"],
       include: [
         {
-          model: postModel,
-          as: "post",
-          attributes: ["id", "body", "attachment", "createdAt", "userId"],
+          model: userModel,
+          attributes: ["firstName", "lastName", "profilePicture"],
         },
       ],
     });
@@ -42,10 +54,10 @@ const post = {
     return await postModel.count({ distinct: "id", where: { id } });
   },
 
-  async getAllPosts(postData) {
+  async getAllPostsComments(postData) {
     const userPostData = postData.map(async (singlePostData) => {
-      const postComments = await this.getPostComments(singlePostData.toJSON().id);
-      return postComments.length ? postComments : singlePostData;
+      const comments = await this.getPostComments(singlePostData.id);
+      return { ...singlePostData, comments };
     }, this);
     const toSaveData = await Promise.all(userPostData);
     return toSaveData;
@@ -53,6 +65,46 @@ const post = {
 
   async deletePostComments(id) {
     return await commentModel.destroy({ where: { postId: id } });
+  },
+
+  async getPostLikes(postId) {
+    return await likeModel.findAll({
+      where: { postId },
+      order: [["createdAt", "DESC"]],
+      attributes: ["id"],
+      include: [
+        {
+          model: userModel,
+          attributes: ["firstName", "lastName"],
+        },
+      ],
+    });
+  },
+
+  async getAllPostsLikes(postData) {
+    const userPostData = postData.map(async (singlePostData) => {
+      const likes = await this.getPostLikes(singlePostData.id);
+      return { ...singlePostData, likes };
+    }, this);
+
+    const toSaveData = await Promise.all(userPostData);
+    return toSaveData;
+  },
+  async findFeed() {
+    return await postModel.findAll({
+      order: [["createdAt", "DESC"]],
+      attributes: {
+        exclude: ["updatedAt"],
+      },
+      include: [
+        {
+          model: userModel,
+          attributes: ["firstName", "lastName", "profilePicture"],
+        },
+      ],
+
+      raw: true,
+    });
   },
 };
 export default post;
