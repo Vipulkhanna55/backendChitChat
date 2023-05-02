@@ -17,9 +17,12 @@ try {
   sequelize
   .authenticate()
   .then(() => {
+    console.log("Connected Successfully");
+
     logger.info("Database connected successfully");
   })
   .catch(() => {
+    console.log("Connection failed -------------------------------------------");
     logger.error("Error in connection with database");
   });
 } catch (error) {
