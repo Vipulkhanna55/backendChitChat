@@ -21,8 +21,8 @@ try {
 
     logger.info("Database connected successfully");
   })
-  .catch(() => {
-    console.log("Connection failed -------------------------------------------");
+  .catch((err) => {
+    console.log("Connection failed -------------------------------------------", err);
     logger.error("Error in connection with database");
   });
 } catch (error) {
