@@ -12,7 +12,7 @@ import { userModel } from "../../models";
 const createRelationship = async (request, response) => {
   try {
     const { followerUserId, followedUserId } = request.body;
-    const relationshipExists = await relationshipModel.findOne({
+    const relationshipExists = await relationshipModel.getOne({
       where: { followerUserId, followedUserId },
     });
     if (relationshipExists) {

@@ -13,7 +13,8 @@ const sequelize = new Sequelize(
   }
 );
 
-sequelize
+try {
+  sequelize
   .authenticate()
   .then(() => {
     logger.info("Database connected successfully");
@@ -21,5 +22,9 @@ sequelize
   .catch(() => {
     logger.error("Error in connection with database");
   });
+} catch (error) {
+  console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++", error);
+}
+
 
 export default sequelize;
