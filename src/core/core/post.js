@@ -40,7 +40,7 @@ const post = {
     return await commentModel.findAll({
       where: { postId },
       order: [["createdAt", "DESC"]],
-      attributes: ["id", "body", "createdAt"],
+      attributes: ["id", "body", "createdAt", "userId"],
       include: [
         {
           model: userModel,
@@ -95,13 +95,14 @@ const post = {
       order: [["createdAt", "DESC"]],
       attributes: {
         exclude: ["updatedAt"],
-      },include: [
+      },
+      include: [
         {
           model: userModel,
           attributes: ["firstName", "lastName", "profilePicture"],
         },
       ],
-      
+
       raw: true,
     });
   },
