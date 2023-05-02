@@ -7,10 +7,12 @@ import unauthorized from "../core/routes/unauthorized";
 import cors from "cors";
 import middleware from '../core/middleware';
 import {logger} from '../core/helper';
+import connectSocket from "../core/helper/socket/chat.js";
 
 const app = express();
+const server = connectSocket(app);
 
-app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 

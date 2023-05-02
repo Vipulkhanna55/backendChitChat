@@ -35,10 +35,10 @@ const getPost = async (request, response) => {
         response
       );
     }
-    let postData = await postModel.getPostComments(id);
-    if (!postData.length) {
-      postData = await postModel.findOnePost(id);
-    }
+    const comment = await postModel.getPostComments(id);
+    const like = await postModel.getPostLikes(id);
+    const post = await postModel.findOnePost(id);
+    const postData = { ...post.dataValues, comment, like };
 
     return sendResponse(
       onSuccess(200, messageResponse.POST_FOUND_SUCCESS, postData),
@@ -60,9 +60,10 @@ const getAllPost = async (request, response) => {
         response
       );
     }
-    let commentedPostData = await postModel.getAllPosts(data);
+    const userCommentData = await postModel.getAllPostsComments(data);
+    const userData = await postModel.getAllPostsLikes(userCommentData);
     return sendResponse(
-      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, commentedPostData),
+      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, userData),
       response
     );
   } catch (error) {
@@ -91,12 +92,26 @@ const updatePost = async (request, response) => {
     return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 };
+const getFeedPosts = async (request, response) => {
+  try {
+    const feedPosts = await postModel.findFeed();
+    const feedCommentData = await postModel.getAllPostsComments(feedPosts);
+    const feedData = await postModel.getAllPostsLikes(feedCommentData);
+    return sendResponse(
+      onSuccess(200, messageResponse.POST_FOUND_SUCCESS, feedData),
+      response
+    );
+  } catch (error) {
+    globalCatch(request, error);
+    return sendResponse(onError(500, messageResponse.ERROR), response);
+  }
+};
 
 const deletePost = async (request, response) => {
   try {
     const { id } = request.params;
     const getPostData = await postModel.isPostExist(id);
-    if (!data) {
+    if (!getPostData) {
       return sendResponse(
         onError(500, messageResponse.POST_NOT_FOUND),
         response
@@ -114,4 +129,11 @@ const deletePost = async (request, response) => {
   }
 };
 
-export default { savePost, getPost, getAllPost, updatePost, deletePost };
+export default {
+  savePost,
+  getPost,
+  getAllPost,
+  updatePost,
+  deletePost,
+  getFeedPosts,
+};

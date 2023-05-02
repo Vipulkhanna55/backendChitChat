@@ -1,5 +1,11 @@
 import bcrypt from "bcryptjs";
-import { userModel, postModel, commentModel, likeModel } from "../../models";
+import {
+  userModel,
+  postModel,
+  commentModel,
+  likeModel,
+  relationshipModel,
+} from "../../models";
 import {
   onSuccess,
   onError,
@@ -7,6 +13,9 @@ import {
   globalCatch,
   messageResponse,
   validator,
+  sendMail,
+  successSignUpText,
+  htmlBody,
 } from "../../helper";
 
 const createUser = async (request, response) => {
@@ -33,6 +42,12 @@ const createUser = async (request, response) => {
       password: hashedPassword,
       profilePicture,
     });
+    sendMail(
+      messageResponse.MAIL_SUBJECT,
+      successSignUpText(firstName + " " + lastName),
+      htmlBody("signUpSuccess"),
+      email
+    );
     return sendResponse(
       onSuccess(201, messageResponse.CREATED_SUCCESS, newUser),
       response
@@ -83,6 +98,12 @@ const deleteUser = async (request, response) => {
     });
     const deletePosts = await postModel.destroy({
       where: { userId: request.params.id },
+    });
+    const deleteRelationships = await relationshipModel.destroy({
+      where: {
+        followerId: request.params.id,
+        followedUserId: request.params.id,
+      },
     });
     const deletedUser = await userModel.destroy({
       where: { id: request.params.id },

@@ -23,13 +23,13 @@ const loginController = async (request, response) => {
         response
       );
     }
-    const userExist = (await userModel.findOne({ where: { email } })).toJSON();
-    if (userExist) {
-      const checker = bcrypt.compareSync(password, userExist["password"]);
+    const user = (await userModel.findOne({ where: { email } })).toJSON();
+    if (user) {
+      const checker = bcrypt.compareSync(password, user["password"]);
       if (checker) {
         const token = jwt.createToken(email, password);
         return sendResponse(
-          onSuccess(200, messageResponse.LOGIN_SUCCESSFULLY, token),
+          onSuccess(200, messageResponse.LOGIN_SUCCESSFULLY, {token,user}),
           response
         );
       } else {
