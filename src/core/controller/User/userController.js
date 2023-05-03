@@ -67,7 +67,7 @@ const updateUser = async (request, response) => {
       request.body;
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
-      return response.status(404).send("User not found");
+      return sendResponse(onError(404, "User not found"), response);
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -90,6 +90,12 @@ const updateUser = async (request, response) => {
 
 const deleteUser = async (request, response) => {
   try {
+    const userExists = await userModel.findOne({
+      where: { id: request.params.id },
+    });
+    if (!userExists) {
+      return sendResponse(onError(404, "User not found"), response);
+    }
     const deleteLikes = await likeModel.destroy({
       where: { userId: request.params.id },
     });
@@ -122,7 +128,7 @@ const getUser = async (request, response) => {
   try {
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
-      return response.status(404).send("User not found");
+      return sendResponse(onError(404, "User not found"), response);
     }
     return sendResponse(onSuccess(200, "User details", user), response);
   } catch (error) {
