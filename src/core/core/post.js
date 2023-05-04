@@ -75,7 +75,7 @@ const post = {
       include: [
         {
           model: userModel,
-          attributes: ["firstName", "lastName"],
+          attributes: ["firstName", "lastName", "id"],
         },
       ],
     });
@@ -95,13 +95,14 @@ const post = {
       order: [["createdAt", "DESC"]],
       attributes: {
         exclude: ["updatedAt"],
-      },include: [
+      },
+      include: [
         {
           model: userModel,
           attributes: ["firstName", "lastName", "profilePicture"],
         },
       ],
-      
+
       raw: true,
     });
   },
