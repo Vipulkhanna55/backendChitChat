@@ -19,7 +19,7 @@ sequelize
   logger.info("Database connected successfully");
 })
 .catch((err) => {
-  logger.error("Error in connection with database");
+  logger.error("Error in connection with database", err);
 });
 
 export default sequelize;

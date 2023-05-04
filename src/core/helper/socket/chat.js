@@ -32,7 +32,7 @@ const connectSocket = (app) => {
       }
     });
     socket.on("disconnect", (message) => {
-      logger.info("Disconnected");
+      console.log("Disconnected");
       delete users[socket.id];
     });
   });

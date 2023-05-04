@@ -29,8 +29,7 @@ const sendMail = async (subject, text, htmlBody, toSend) => {
       logger.info("email sent successfully");
     });
   } catch (error) {
-    logger.error(error);
-    logger.error("error while sending email");
+    logger.error("error while sending email", error);
   }
 };
 const successSignUpText = (name) => {
