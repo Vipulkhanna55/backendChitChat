@@ -25,5 +25,5 @@ middleware(app);
 authorized(app);
 
 app.listen(config.PORT, () => {
-  logger.info(`listening on port ${config.PORT}`);
+  console.log(`listening on port ${config.PORT}`);
 });

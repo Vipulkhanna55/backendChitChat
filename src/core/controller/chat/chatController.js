@@ -14,7 +14,7 @@ const chatController = {
       const savedChat = await saveChat({ senderId, receiverId, body });
       return savedChat.toJSON();
     } catch (error) {
-      logger.error("Error while saving chat");
+      console.log("Error while saving chat");
     }
   },
   async getChat(request, response) {

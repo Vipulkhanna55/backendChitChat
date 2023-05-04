@@ -13,12 +13,15 @@ const createToken = (email, password) => {
 
 const jwtVerify = async (request, response, next) => {
   try {
+    console.log("/////////////////////////////////////?????/");
     const token = request.headers["token"];
     if (!token) {
+      console.log("+++++++++++++++++++++++++");
       return sendResponse(onError(403, messageResponse.TOKEN_ERROR), response);
     } else {
       jwt.verify(token, config.SECRET, (error, data) => {
         if (error) {
+          console.log("======================", error);
           return sendResponse(
             onError(500, messageResponse.AUTH_FAIL),
             response
@@ -28,6 +31,7 @@ const jwtVerify = async (request, response, next) => {
       });
     }
   } catch (error) {
+    console.log("-----------------------------", error);
     globalCatch(request, error);
     return sendResponse(onError(500, messageResponse.ERROR), response);
   }

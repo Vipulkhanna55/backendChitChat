@@ -15,7 +15,7 @@ const connectSocket = (app) => {
         socketConnected[user.id] = socket.id;
         socket.to(socketConnected[user.id]).emit("online", "online");
       } catch (error) {
-        logger.error("Error in new connection", error);
+        console.log("Error in new connection", error);
       }
     });
     socket.on("message", async (messageInput) => {
@@ -28,7 +28,7 @@ const connectSocket = (app) => {
         );
         socket.to(socketConnected[receiverId]).emit("receive", receiveChat);
       } catch (error) {
-        logger.error("Error while sending chat", error);
+        console.log("Error while sending chat", error);
       }
     });
     socket.on("disconnect", (message) => {

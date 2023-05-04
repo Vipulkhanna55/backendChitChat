@@ -9,17 +9,17 @@ const sequelize = new Sequelize(
   {
     host: databaseConfig.DATABASE_HOST,
     dialect: databaseConfig.DATABASE,
-    port: databaseConfig.DATABASE_PORT
+    // port: databaseConfig.DATABASE_PORT
   }
 );
 
 sequelize
 .authenticate()
 .then(() => {
-  logger.info("Database connected successfully");
+  console.log("Database connected successfully");
 })
 .catch((err) => {
-  logger.error("Error in connection with database", err);
+  console.log("Error in connection with database", err);
 });
 
 export default sequelize;
