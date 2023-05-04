@@ -153,4 +153,27 @@ const getUsers = async (request, response) => {
   }
 };
 
-export default { createUser, deleteUser, updateUser, getUsers, getUser };
+const getUserByName = async (request, response) => {
+  try {
+    const { name } = request.query;
+    const users = await userModel.findAll({ where: { firstName: name } });
+    if (!users) {
+      return sendResponse(onError(404, "Users not found"), response);
+    }
+    return sendResponse(onSuccess(200, "User details", users), response);
+  } catch (error) {
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
+  }
+};
+
+export default {
+  createUser,
+  deleteUser,
+  updateUser,
+  getUsers,
+  getUser,
+  getUserByName,
+};

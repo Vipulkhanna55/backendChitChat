@@ -15,7 +15,7 @@ const server = connectSocket(app);
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
-// app.use(morgan('tiny'));
+app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 database.sync({ alter: true });
@@ -24,6 +24,6 @@ unauthorized(app);
 middleware(app);
 authorized(app);
 
-app.listen(config.PORT, () => {
+server.listen(config.PORT, () => {
   console.log(`listening on port ${config.PORT}`);
 });
