@@ -17,6 +17,7 @@ import {
   successSignUpText,
   htmlBody,
 } from "../../helper";
+import { Op } from "sequelize";
 
 const createUser = async (request, response) => {
   try {
@@ -93,6 +94,7 @@ const deleteUser = async (request, response) => {
     const userExists = await userModel.findOne({
       where: { id: request.params.id },
     });
+    console.log("++++++++++++++++++++++", userExists);
     if (!userExists) {
       return sendResponse(onError(404, "User not found"), response);
     }
@@ -107,8 +109,10 @@ const deleteUser = async (request, response) => {
     });
     const deleteRelationships = await relationshipModel.destroy({
       where: {
-        followerId: request.params.id,
-        followedUserId: request.params.id,
+        [Op.or]: [
+          { followedUserId: request.params.id },
+          { followerUserId: request.params.id },
+        ],
       },
     });
     const deletedUser = await userModel.destroy({

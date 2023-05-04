@@ -16,14 +16,9 @@ const remove = async (query) => {
   return await relationshipModel.destroy(query);
 };
 
-const updateOne = async (query) => {
-  return await relationshipModel.update(query);
-}
-
 export default {
   insert,
   getOne,
   getMany,
   remove,
-  updateOne
 };

@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { relationshipModel } from "../../core";
+import { relationship } from "../../core";
 import {
   onSuccess,
   onError,
@@ -7,34 +7,41 @@ import {
   globalCatch,
   messageResponse,
 } from "../../helper";
-import { userModel } from "../../models";
+import { userModel, relationshipModel } from "../../models";
 
-const createRelationship = async ({followerUserId, followedUserId}) => {
+const createRelationship = async ({ followerUserId, followedUserId }) => {
   try {
-    console.log("Inside +++++++++++++++++++++");
-    const relationshipExists = await relationshipModel.getOne({
+    const relationshipExists = await relationship.getOne({
       where: { followerUserId, followedUserId },
     });
     if (relationshipExists) {
       return;
     }
-    console.log("jkfhdshfkhdfhfhhds");
-    const newRelationship = await relationshipModel.insert({
+    const newRelationship = await relationship.insert({
       followerUserId,
       followedUserId,
     });
-    const followerUser = await userModel.findOne({where: {id: followerUserId}})
-    console.log("===================",   {newRelationship, follower: {name: followerUser.firstName + " "+ followerUser.lastName, profilePicture: followerUser.profilePicture}});
-    return {newRelationship, follower: {name: followerUser.firstName + " "+ followerUser.lastName, profilePicture: followerUser.profilePicture}};
+    const followerUser = await userModel.findOne({
+      where: { id: followerUserId },
+    });
+    const result = {
+      newRelationship,
+      follower: {
+        name: followerUser.firstName + " " + followerUser.lastName,
+        profilePicture: followerUser.profilePicture,
+      },
+    };
+    console.log(result);
+    return result;
   } catch (error) {
-    console.log("Error in creating relationship ",error);
+    console.log("Error in creating relationship ", error);
   }
 };
 
 const getRelationship = async (request, response) => {
   try {
     const { id } = request.params;
-    const relationship = await relationshipModel.getOne({
+    const relationship = await relationship.getOne({
       where: { id },
     });
     const followerUser = await userModel.findOne({
@@ -62,7 +69,7 @@ const getRelationship = async (request, response) => {
 const getAllRelationships = async (request, response) => {
   try {
     const { followedUserId } = request.params;
-    const relationships = await relationshipModel.getMany({
+    const relationships = await relationship.getMany({
       where: {
         [Op.and]: [{ followedUserId }, { isRequestAccepted: true }],
       },
@@ -87,31 +94,38 @@ const getAllRelationships = async (request, response) => {
   }
 };
 
-const updateRelation = async ({followerUserId, followedUserId}) => {
+const updateRelation = async ({ followerUserId, followedUserId }) => {
   try {
-    const foundRelation = await relationshipModel.getOne({where: {followerUserId, followedUserId}});
-    if(foundRelation){
-      const updateRelatonship = await relationshipModel.updateOne({isRequestAccepted: true},{where: {followerUserId, followedUserId}})
-    }
-    
-  } catch (error) {
-    
-  }
-}
-
-const removeRelationship = async (request, response) => {
-  try {
-    const { followerUserId } = request.params;
-    const removedRelationship = await relationshipModel.remove({
-      where: { followerUserId },
+    const foundRelation = await relationship.getOne({
+      where: { followerUserId, followedUserId },
     });
-    return sendResponse(
-      onSuccess(200, "removed relationship", removedRelationship),
-      response
-    );
+    if (foundRelation) {
+      const updateRelationship = await relationshipModel.update(
+        { isRequestAccepted: true },
+        { where: { followerUserId, followedUserId } }
+      );
+      return updateRelationship;
+    }
+    return { message: "not found" };
   } catch (error) {
-    globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    console.log(error);
+  }
+};
+
+const removeRelationship = async ({ followerUserId, followedUserId }) => {
+  try {
+    const foundRelationship = await relationship.getOne({
+      where: { followerUserId, followedUserId },
+    });
+    if (foundRelationship) {
+      const deleteRelation = await relationship.remove({
+        where: { followerUserId, followedUserId },
+      });
+      return deleteRelation;
+    }
+    return { message: "not found" };
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -120,4 +134,5 @@ export default {
   removeRelationship,
   getAllRelationships,
   getRelationship,
+  updateRelation,
 };
