@@ -2,6 +2,7 @@ import { chatController } from "../../controller";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import logger from "../logger.js";
+import {relationshipController} from "../../controller";
 
 const connectSocket = (app) => {
   const server = createServer(app);
@@ -18,6 +19,21 @@ const connectSocket = (app) => {
         console.log("Error in new connection", error);
       }
     });
+    socket.on('addFriend',async (friendInput)=>{
+      const successRelation=await relationshipController.createRelationship({followerUserId:friendInput.followerUserId,followedUserId:friendInput.followedUserId});
+      socket.emit('followRequest',successRelation);
+
+    });
+    socket.on('requestAccepted',async (friendInput)=>{
+      if(friendInput.status === "Accepted"){
+        const requestAccepted=await relationshipController.updateRelation({followerUserId:friendInput.followerUserId, followedUserId: friendInput.followedUserId});
+      }else{
+        relationshipController.deleteRelation({followerUserId:friendInput.followerUserId, followedUserId: friendInput.followedUserId})
+      }
+      
+
+
+    })
     socket.on("message", async (messageInput) => {
       try {
         const { senderId, receiverId, body } = messageInput;

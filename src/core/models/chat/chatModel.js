@@ -23,7 +23,7 @@ const chat = sequelize.define(
       allowNull: false,
     },
     createdAt: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false,
       defaultValue: Date.now(),
     },

@@ -9,29 +9,25 @@ import {
 } from "../../helper";
 import { userModel } from "../../models";
 
-const createRelationship = async (request, response) => {
+const createRelationship = async ({followerUserId, followedUserId}) => {
   try {
-    const { followerUserId, followedUserId } = request.body;
+    console.log("Inside +++++++++++++++++++++");
     const relationshipExists = await relationshipModel.getOne({
       where: { followerUserId, followedUserId },
     });
     if (relationshipExists) {
-      return sendResponse(
-        onError(409, "relationship already exists"),
-        response
-      );
+      return;
     }
+    console.log("jkfhdshfkhdfhfhhds");
     const newRelationship = await relationshipModel.insert({
       followerUserId,
       followedUserId,
     });
-    return sendResponse(
-      onSuccess(201, "relationship created", newRelationship),
-      response
-    );
+    const followerUser = await userModel.findOne({where: {id: followerUserId}})
+    console.log("===================",   {newRelationship, follower: {name: followerUser.firstName + " "+ followerUser.lastName, profilePicture: followerUser.profilePicture}});
+    return {newRelationship, follower: {name: followerUser.firstName + " "+ followerUser.lastName, profilePicture: followerUser.profilePicture}};
   } catch (error) {
-    globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    console.log("Error in creating relationship ",error);
   }
 };
 
@@ -90,6 +86,18 @@ const getAllRelationships = async (request, response) => {
     return sendResponse(onError(500, messageResponse.ERROR), response);
   }
 };
+
+const updateRelation = async ({followerUserId, followedUserId}) => {
+  try {
+    const foundRelation = await relationshipModel.getOne({where: {followerUserId, followedUserId}});
+    if(foundRelation){
+      const updateRelatonship = await relationshipModel.updateOne({isRequestAccepted: true},{where: {followerUserId, followedUserId}})
+    }
+    
+  } catch (error) {
+    
+  }
+}
 
 const removeRelationship = async (request, response) => {
   try {
