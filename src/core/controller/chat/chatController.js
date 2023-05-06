@@ -6,7 +6,7 @@ import {
   globalCatch,
   messageResponse,
 } from "../../helper";
-import logger from "../../helper/logger";
+import { logger } from "../../helper";
 
 const chatController = {
   async saveUsersChat(senderId, receiverId, body) {
@@ -20,7 +20,7 @@ const chatController = {
       });
       return savedChat.toJSON();
     } catch (error) {
-      console.log(logger.chatLogs().failure);
+      logger.error("Error while saving chat");
     }
   },
   async getChat(request, response) {
@@ -35,14 +35,13 @@ const chatController = {
           response
         );
       }
-
       return sendResponse(
         onSuccess(200, messageResponse.CHAT_FETCH_SUCCESS, usersChatData),
         response
       );
     } catch (error) {
       globalCatch(request, error);
-      return sendResponse(onError(500, messageResponse.ERROR), response);
+      return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
     }
   },
 };

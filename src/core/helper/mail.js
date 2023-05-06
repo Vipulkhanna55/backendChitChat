@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import config from "../../../config/config";
-import logs from "./logger";
+import logger from "./logger.js";
+
 const transporter = nodemailer.createTransport({
   service: config.MAIL_SERVICE,
   host: config.MAIL_HOST,
@@ -23,13 +24,12 @@ const sendMail = async (subject, text, htmlBody, toSend) => {
     });
     transporter.sendMail(info, (error, response) => {
       if (error) {
-        console.log(logs.mailLogs().reject);
+        logger.error("error while sending email");
       }
-      console.log(logs.mailLogs().success);
+      logger.info("email sent successfully");
     });
   } catch (error) {
-    console.log(error);
-    console.log(logs.mailLogs().reject);
+    logger.error("error while sending email", error);
   }
 };
 const successSignUpText = (name) => {

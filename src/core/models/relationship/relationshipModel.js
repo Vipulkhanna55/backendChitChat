@@ -1,10 +1,9 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 import user from "../user";
-import post from "../post";
 
-const comment = sequelize.define(
-  "comment",
+const relationship = sequelize.define(
+  "relationship",
   {
     id: {
       type: DataTypes.UUID,
@@ -12,17 +11,17 @@ const comment = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    body: {
-      type: DataTypes.STRING,
+    isRequestAccepted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   {
-    timestamps: true,
     freezeTableName: true,
   }
 );
 
-comment.belongsTo(user, { foreignKey: "userId" });
-comment.belongsTo(post, { foreignKey: "postId" });
+relationship.belongsTo(user, { foreignKey: "followerUserId" });
+relationship.belongsTo(user, { foreignKey: "followedUserId" });
 
-export default comment;
+export default relationship;

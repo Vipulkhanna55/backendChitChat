@@ -6,6 +6,7 @@ import authorized from "../core/routes/authorized";
 import unauthorized from "../core/routes/unauthorized";
 import cors from "cors";
 import middleware from "../core/middleware";
+import { logger } from "../core/helper";
 import connectSocket from "../core/helper/socket/chat.js";
 import morgan from 'morgan'
 import swaggerJsdoc from "swagger-jsdoc"
@@ -36,6 +37,7 @@ app.use('/api-doc',swaggerUi.serve,swaggerUi.setup(swaggerSpec,{ explorer: true 
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
+app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 
@@ -46,5 +48,5 @@ middleware(app);
 authorized(app);
 
 server.listen(config.PORT, () => {
-  console.log(`listening on port ${config.PORT}`);
+  logger.info(`listening on port ${config.PORT}`);
 });
