@@ -94,7 +94,6 @@ const deleteUser = async (request, response) => {
     const userExists = await userModel.findOne({
       where: { id: request.params.id },
     });
-    console.log("++++++++++++++++++++++", userExists);
     if (!userExists) {
       return sendResponse(onError(404, "User not found"), response);
     }

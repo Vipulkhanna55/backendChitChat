@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import logger from "../logger.js";
 import { relationshipController } from "../../controller";
+import { userModel } from "../../models";
 
 const connectSocket = (app) => {
   const server = createServer(app);
@@ -24,7 +25,8 @@ const connectSocket = (app) => {
         followerUserId: friendInput.followerUserId,
         followedUserId: friendInput.followedUserId,
       });
-      socket.emit("followRequest", successRelation);
+      socket.to(socketConnected[friendInput.followedUserId]).emit("followRequest", successRelation);
+
     });
     socket.on("requestAccepted", async (friendInput) => {
       if (friendInput.status === "Accepted") {
@@ -52,6 +54,16 @@ const connectSocket = (app) => {
         console.log("Error while sending chat", error);
       }
     });
+
+    // notification
+    socket.on("notification", async (likeData) => {
+      const likedUser = await userModel.findOne({ where: { id: likeData.userId } });
+      const post = await postModel.findOne({ where: { id: likeData.postId}});
+      socket.to(socketConnected[post.userId]).emit("showNotification", {
+        message: `${likedUser.firstName + " " + likedUser.lastName} liked your post`,
+      });
+    });
+
     socket.on("disconnect", (message) => {
       console.log("Disconnected");
       delete users[socket.id];

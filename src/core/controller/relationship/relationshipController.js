@@ -11,12 +11,6 @@ import { userModel, relationshipModel } from "../../models";
 
 const createRelationship = async ({ followerUserId, followedUserId }) => {
   try {
-    const relationshipExists = await relationship.getOne({
-      where: { followerUserId, followedUserId },
-    });
-    if (relationshipExists) {
-      return;
-    }
     const newRelationship = await relationship.insert({
       followerUserId,
       followedUserId,
@@ -66,17 +60,47 @@ const getRelationship = async (request, response) => {
   }
 };
 
+const relationRequests = async (request, response) => {
+  try {
+    const { id } = request.query;
+    const relations = await relationshipModel.findAll({
+      where: { followedUserId: id, isRequestAccepted: false },
+    });
+    return sendResponse(
+      onSuccess(200, "relationship found", {
+        relations,
+      }),
+      response
+    );
+  } catch (error) {
+    globalCatch(request, error);
+    return sendResponse(onError(500, messageResponse.ERROR), response);
+  }
+};
+
 const getAllRelationships = async (request, response) => {
   try {
     const { followedUserId } = request.params;
     const relationships = await relationship.getMany({
       where: {
-        [Op.and]: [{ followedUserId }, { isRequestAccepted: true }],
+        [Op.or]: [
+          { [Op.and]: [{ followedUserId }, { isRequestAccepted: true }] },
+          {
+            [Op.and]: [
+              { followerUserId: followedUserId },
+              { isRequestAccepted: true },
+            ],
+          },
+        ],
       },
     });
     const followers = relationships.map(async (elem) => {
+      let followersDataId =
+        elem.dataValues.followerUserId == followedUserId
+          ? elem.dataValues.followedUserId
+          : elem.dataValues.followerUserId;
       const follower = await userModel.findOne({
-        where: { id: elem.dataValues.followerUserId },
+        where: { id: followersDataId },
         attributes: ["id", "firstName", "lastName", "profilePicture"],
       });
       return follower.dataValues;
@@ -135,4 +159,5 @@ export default {
   getAllRelationships,
   getRelationship,
   updateRelation,
+  relationRequests,
 };
