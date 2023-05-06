@@ -28,6 +28,7 @@ const options={
 
 
   },
+  
   apis:[__dirname+'/unauthorized/*.js',__dirname+'/authorized/*.js']
 }
 const swaggerSpec=swaggerJsdoc(options);

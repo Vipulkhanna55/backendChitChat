@@ -14,5 +14,4 @@ router.delete("/:id", isAdmin(userController.deleteUser));
 
 // get all users
 router.get("/", userController.getUsers);
-
 export default router;
