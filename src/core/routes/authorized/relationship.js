@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/", relationshipController.createRelationship);
 
 // delete a relationship
-router.delete("/:followerUserId", relationshipController.removeRelationship);
+router.delete("/:id", relationshipController.removeRelationship);
 
 // get all relationships of a user
 router.get("/all/:followedUserId", relationshipController.getAllRelationships);

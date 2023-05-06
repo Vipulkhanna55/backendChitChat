@@ -31,7 +31,7 @@ const createRelationship = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
   }
 };
 
@@ -41,6 +41,9 @@ const getRelationship = async (request, response) => {
     const relationship = await relationshipModel.getOne({
       where: { id },
     });
+    if (!relationship) {
+      return sendResponse(onError(404, "relationship not found"), response);
+    }
     const followerUser = await userModel.findOne({
       where: { id: relationship.followerUserId },
       attributes: ["firstName", "lastName", "profilePicture"],
@@ -59,18 +62,25 @@ const getRelationship = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
   }
 };
 
 const getAllRelationships = async (request, response) => {
   try {
     const { followedUserId } = request.params;
+    const user = await userModel.findOne({ where: { id: followedUserId } });
+    if (!user) {
+      return sendResponse(onError(404, "User does not exist"), response);
+    }
     const relationships = await relationshipModel.getMany({
       where: {
         [Op.and]: [{ followedUserId }, { isRequestAccepted: true }],
       },
     });
+    if (!relationships) {
+      return sendResponse(onError(404, "relationships not found"), response);
+    }
     const followers = relationships.map(async (elem) => {
       const follower = await userModel.findOne({
         where: { id: elem.dataValues.followerUserId },
@@ -87,23 +97,29 @@ const getAllRelationships = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
   }
 };
 
 const removeRelationship = async (request, response) => {
   try {
-    const { followerUserId } = request.params;
+    const { id } = request.params;
+    const foundRelation = await relationshipModel.getOne({
+      where: { id },
+    });
+    if (!foundRelation) {
+      return sendResponse(onError(404, "relationship not found"), response);
+    }
     const removedRelationship = await relationshipModel.remove({
-      where: { followerUserId },
+      where: { id },
     });
     return sendResponse(
-      onSuccess(200, "removed relationship", removedRelationship),
+      onSuccess(200, "removed relationship successfully"),
       response
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
   }
 };
 
