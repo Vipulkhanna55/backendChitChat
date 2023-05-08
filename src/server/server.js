@@ -13,7 +13,7 @@ const app = express();
 const server = connectSocket(app);
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
-app.use(morgan("tiny"));
+app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: true }));
 database.sync({ alter: true });
 

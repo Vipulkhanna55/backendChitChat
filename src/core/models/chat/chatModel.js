@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
-
 const date = new Date();
+
 const chat = sequelize.define(
   "chat",
   {

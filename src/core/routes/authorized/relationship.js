@@ -6,6 +6,9 @@ const router = express.Router();
 // create a new relationship
 router.post("/", relationshipController.createRelationship);
 
+// get friend requests
+router.get("/request", relationshipController.relationRequests);
+
 // delete a relationship
 router.delete("/:id", relationshipController.removeRelationship);
 

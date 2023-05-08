@@ -46,7 +46,7 @@ const post = {
       include: [
         {
           model: userModel,
-          attributes: ["id", "firstName", "lastName", "profilePicture"],
+          attributes: ["id","firstName", "lastName", "profilePicture"],
         },
       ],
     });
@@ -77,7 +77,7 @@ const post = {
       include: [
         {
           model: userModel,
-          attributes: ["firstName", "lastName", "id"],
+          attributes: ["id","firstName", "lastName"],
         },
       ],
     });

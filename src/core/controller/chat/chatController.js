@@ -16,13 +16,23 @@ const chatController = {
         senderId,
         receiverId,
         body,
-        createdAt: today.getFullYear()+':'+(today.getMonth()+1)+':'+today.getDate() + ':'+today.getHours() + ':'+today.getMinutes(),
+        createdAt:
+          today.getFullYear() +
+          ":" +
+          (today.getMonth() + 1) +
+          ":" +
+          today.getDate() +
+          ":" +
+          today.getHours() +
+          ":" +
+          today.getMinutes(),
       });
       return savedChat.toJSON();
     } catch (error) {
-      logger.error("Error while saving chat");
+      console.log(error);
     }
   },
+
   async getChat(request, response) {
     try {
       const usersChatData = await getUsersChat(
@@ -45,4 +55,5 @@ const chatController = {
     }
   },
 };
+
 export default chatController;

@@ -2,6 +2,8 @@ import { chatController } from "../../controller";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import logger from "../logger.js";
+import { relationshipController } from "../../controller";
+import { userModel } from "../../models";
 
 const connectSocket = (app) => {
   const server = createServer(app);
@@ -15,7 +17,28 @@ const connectSocket = (app) => {
         socketConnected[user.id] = socket.id;
         socket.to(socketConnected[user.id]).emit("online", "online");
       } catch (error) {
-        logger.error("Error in new connection", error);
+        console.log("Error in new connection", error);
+      }
+    });
+    socket.on("addFriend", async (friendInput) => {
+      const successRelation = await relationshipController.createRelationship({
+        followerUserId: friendInput.followerUserId,
+        followedUserId: friendInput.followedUserId,
+      });
+      socket.to(socketConnected[friendInput.followedUserId]).emit("followRequest", successRelation);
+
+    });
+    socket.on("requestAccepted", async (friendInput) => {
+      if (friendInput.status === "Accepted") {
+        const requestAccepted = await relationshipController.updateRelation({
+          followerUserId: friendInput.followerUserId,
+          followedUserId: friendInput.followedUserId,
+        });
+      } else {
+        relationshipController.removeRelationship({
+          followerUserId: friendInput.followerUserId,
+          followedUserId: friendInput.followedUserId,
+        });
       }
     });
     socket.on("message", async (messageInput) => {
@@ -28,9 +51,10 @@ const connectSocket = (app) => {
         );
         socket.to(socketConnected[receiverId]).emit("receive", receiveChat);
       } catch (error) {
-        logger.error("Error while sending chat", error);
+        console.log("Error while sending chat", error);
       }
     });
+
     socket.on("disconnect", (message) => {
       console.log("Disconnected");
       delete users[socket.id];
