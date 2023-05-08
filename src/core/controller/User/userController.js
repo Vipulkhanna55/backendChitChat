@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import bcrypt from "bcryptjs";
 import {
   userModel,
@@ -107,14 +108,16 @@ const deleteUser = async (request, response) => {
     });
     const deleteRelationships = await relationshipModel.destroy({
       where: {
-        followerId: request.params.id,
-        followedUserId: request.params.id,
+        [Op.or]: [
+          { followerId: request.params.id },
+          { followedUserId: request.params.id },
+        ],
       },
     });
     const deletedUser = await userModel.destroy({
       where: { id: request.params.id },
     });
-    return sendResponse(onSuccess(200, "User deleted", deletedUser), response);
+    return sendResponse(onSuccess(200, "User deleted", userExists), response);
   } catch (error) {
     globalCatch(request, error);
     return sendResponse(
