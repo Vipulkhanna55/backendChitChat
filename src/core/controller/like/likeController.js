@@ -14,7 +14,7 @@ const getLikes = async (request, response) => {
     return sendResponse(onSuccess(200, "Likes", likes), response);
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
   }
 };
 
@@ -25,7 +25,7 @@ const createLike = async (request, response) => {
     return sendResponse(onSuccess(201, "post liked", newLike), response);
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
   }
 };
 
@@ -40,7 +40,7 @@ const deleteLikes = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
   }
 };
 
@@ -52,7 +52,7 @@ const deleteOneLike = async (request, response) => {
     return sendResponse(onSuccess(200, "like deleted", deletedLike), response);
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
   }
 };
 

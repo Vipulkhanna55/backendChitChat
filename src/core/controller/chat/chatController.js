@@ -51,7 +51,7 @@ const chatController = {
       );
     } catch (error) {
       globalCatch(request, error);
-      return sendResponse(onError(500, messageResponse.ERROR), response);
+      return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
     }
   },
 };

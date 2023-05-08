@@ -11,6 +11,12 @@ import { userModel, relationshipModel } from "../../models";
 
 const createRelationship = async ({ followerUserId, followedUserId }) => {
   try {
+    const relationshipExists = await relationship.getOne({
+      where: { followerUserId, followedUserId },
+    });
+    if (relationshipExists) {
+      return { message: "relationship already exists" };
+    }
     const newRelationship = await relationship.insert({
       followerUserId,
       followedUserId,
@@ -56,25 +62,38 @@ const getRelationship = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 
 const relationRequests = async (request, response) => {
   try {
     const { id } = request.query;
-    const relations = await relationshipModel.findAll({
+    const relations = await relationship.getMany({
       where: { followedUserId: id, isRequestAccepted: false },
+    });
+    const followers = relations.map(async (element) => {
+      const follower = await userModel.findOne({
+        where: { id: element.followerUserId },
+        attributes: ["id", "firstName", "lastName", "profilePicture"],
+      });
+      return follower.dataValues;
     });
     return sendResponse(
       onSuccess(200, "relationship found", {
-        relations,
+        followers: await Promise.all(followers),
       }),
       response
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 
@@ -114,7 +133,10 @@ const getAllRelationships = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 
