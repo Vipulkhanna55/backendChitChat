@@ -107,7 +107,7 @@ const getAllRelationships = async (request, response) => {
     if (!user) {
       return sendResponse(onError(404, "User does not exist"), response);
     }
-    const relationships = await relationshipModel.getMany({
+    const relationships = await relationship.getMany({
       where: {
         [Op.or]: [
           { [Op.and]: [{ followedUserId }, { isRequestAccepted: true }] },
