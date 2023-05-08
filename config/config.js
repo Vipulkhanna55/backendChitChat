@@ -1,18 +1,22 @@
-const SECRET = "55ChitChat";
-const PORT = 8484;
-const SALT = 10;
-const DATABASE_NAME = "ChitChat";
-const DATA_USER_NAME = "postgres";
-const DATABASE_PASSWORD = "newPassword";
-const DATABASE = "postgres";
-const DATABASE_HOST = "localhost";
+import dotenv from "dotenv";
+dotenv.config();
+
+const SECRET = process.env.SECRET;
+const PORT = process.env.PORT;
+const SALT = process.env.SALT;
+const DATABASE_NAME = process.env.DATABASE_NAME;
+const DATA_USER_NAME = process.env.DATA_USER_NAME;
+const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
+const DATABASE = process.env.DATABASE;
+const DATABASE_HOST = process.env.DATABASE_HOST;
+const DATABASE_PORT = process.env.DATABASE_PORT;
 const JWT_EXPIRY = 86400;
-const MAIL_EMAIL = "vipulkhanna33@gmail.com";
-const MAIL_PASSWORD = "muapddtxurggsxkw";
-const EMAIL_FROM = "vipulkhanna33@gmail.com";
-const MAIL_HOST = "smtp.gmail.com";
-const MAIL_SERVICE = "gmail";
-const MAIL_PORT = 587;
+const MAIL_EMAIL = process.env.MAIL_EMAIL;
+const MAIL_PASSWORD = process.env.MAIL_PASSWORD;
+const EMAIL_FROM = process.env.EMAIL_FROM;
+const MAIL_HOST = process.env.MAIL_HOST;
+const MAIL_PORT = process.env.MAIL_PORT;
+const MAIL_SERVICE = process.env.MAIL_SERVICE;
 
 export default {
   SECRET,
@@ -24,6 +28,7 @@ export default {
   DATABASE_PASSWORD,
   DATABASE,
   DATABASE_HOST,
+  DATABASE_PORT,
   MAIL_EMAIL,
   MAIL_PASSWORD,
   EMAIL_FROM,
