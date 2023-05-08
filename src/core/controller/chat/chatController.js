@@ -11,7 +11,13 @@ import { logger } from "../../helper";
 const chatController = {
   async saveUsersChat(senderId, receiverId, body) {
     try {
-      const savedChat = await saveChat({ senderId, receiverId, body });
+      const today = new Date();
+      const savedChat = await saveChat({
+        senderId,
+        receiverId,
+        body,
+        createdAt: today.getFullYear()+':'+(today.getMonth()+1)+':'+today.getDate() + ':'+today.getHours() + ':'+today.getMinutes(),
+      });
       return savedChat.toJSON();
     } catch (error) {
       logger.error("Error while saving chat");
