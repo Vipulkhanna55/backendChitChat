@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
+
+const date = new Date();
 const chat = sequelize.define(
   "chat",
   {
@@ -24,7 +26,16 @@ const chat = sequelize.define(
     createdAt: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: new Date().getHours() + ":" + new Date(). getHours(),
+      defaultValue:
+        date.getFullYear() +
+        ":" +
+        date.getMonth() +
+        ":" +
+        date.getDate() +
+        ":" +
+        date.getHours() +
+        ":" +
+        date.getMinutes(),
     },
   },
   {
