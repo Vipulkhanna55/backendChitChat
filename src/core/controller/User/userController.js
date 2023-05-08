@@ -117,7 +117,7 @@ const deleteUser = async (request, response) => {
     const deletedUser = await userModel.destroy({
       where: { id: request.params.id },
     });
-    return sendResponse(onSuccess(200, "User deleted", deletedUser), response);
+    return sendResponse(onSuccess(200, "User deleted", userExists), response);
   } catch (error) {
     globalCatch(request, error);
     return sendResponse(

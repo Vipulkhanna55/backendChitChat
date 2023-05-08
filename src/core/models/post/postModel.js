@@ -1,4 +1,3 @@
-import zlib from "zlib";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 import user from "../user/userModel.js";

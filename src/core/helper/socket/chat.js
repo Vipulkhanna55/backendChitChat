@@ -55,15 +55,6 @@ const connectSocket = (app) => {
       }
     });
 
-    // notification
-    socket.on("notification", async (likeData) => {
-      const likedUser = await userModel.findOne({ where: { id: likeData.userId } });
-      const post = await postModel.findOne({ where: { id: likeData.postId}});
-      socket.to(socketConnected[post.userId]).emit("showNotification", {
-        message: `${likedUser.firstName + " " + likedUser.lastName} liked your post`,
-      });
-    });
-
     socket.on("disconnect", (message) => {
       console.log("Disconnected");
       delete users[socket.id];
