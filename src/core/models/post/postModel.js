@@ -13,7 +13,7 @@ const post = sequelize.define(
       primaryKey: true,
     },
     body: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT("long"),
     },
     attachment: {
       type: DataTypes.TEXT("long"),
