@@ -44,6 +44,9 @@ const getRelationship = async (request, response) => {
     const relationship = await relationship.getOne({
       where: { id },
     });
+    if (!relationship) {
+      return sendResponse(onError(404, "relationship not found"), response);
+    }
     const followerUser = await userModel.findOne({
       where: { id: relationship.followerUserId },
       attributes: ["firstName", "lastName", "profilePicture"],
@@ -100,7 +103,11 @@ const relationRequests = async (request, response) => {
 const getAllRelationships = async (request, response) => {
   try {
     const { followedUserId } = request.params;
-    const relationships = await relationship.getMany({
+    const user = await userModel.findOne({ where: { id: followedUserId } });
+    if (!user) {
+      return sendResponse(onError(404, "User does not exist"), response);
+    }
+    const relationships = await relationshipModel.getMany({
       where: {
         [Op.or]: [
           { [Op.and]: [{ followedUserId }, { isRequestAccepted: true }] },
@@ -113,6 +120,9 @@ const getAllRelationships = async (request, response) => {
         ],
       },
     });
+    if (!relationships) {
+      return sendResponse(onError(404, "relationships not found"), response);
+    }
     const followers = relationships.map(async (elem) => {
       let followersDataId =
         elem.dataValues.followerUserId == followedUserId

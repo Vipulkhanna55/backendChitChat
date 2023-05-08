@@ -1,5 +1,8 @@
 import express from "express";
 import { userController } from "../../controller";
+import { isAdmin } from "../../core";
+
+
 
 const router = express.Router();
 
@@ -10,12 +13,12 @@ router.get("/names", userController.getUserByName);
 router.patch("/:id", userController.updateUser);
 
 // delete a user
-router.delete("/:id", userController.deleteUser);
+router.delete("/:id", isAdmin(userController.deleteUser));
 
 // get all users
 router.get("/", userController.getUsers);
 
-// get a single user
+//get a single user
 router.get("/:id", userController.getUser);
 
 export default router;

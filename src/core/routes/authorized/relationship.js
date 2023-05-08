@@ -10,7 +10,7 @@ router.post("/", relationshipController.createRelationship);
 router.get("/request", relationshipController.relationRequests);
 
 // delete a relationship
-router.delete("/:followerUserId", relationshipController.removeRelationship);
+router.delete("/:id", relationshipController.removeRelationship);
 
 // get all relationships of a user
 router.get("/all/:followedUserId", relationshipController.getAllRelationships);

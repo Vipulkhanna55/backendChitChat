@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import bcrypt from "bcryptjs";
 import {
   userModel,
@@ -17,7 +18,6 @@ import {
   successSignUpText,
   htmlBody,
 } from "../../helper";
-import { Op } from "sequelize";
 
 const createUser = async (request, response) => {
   try {
