@@ -105,7 +105,10 @@ const getAllRelationships = async (request, response) => {
     const { followedUserId } = request.params;
     const user = await userModel.findOne({ where: { id: followedUserId } });
     if (!user) {
-      return sendResponse(onError(404, "User does not exist"), response);
+      return sendResponse(
+        onError(404, messageResponse.USER_NOT_EXIST),
+        response
+      );
     }
     const relationships = await relationship.getMany({
       where: {
