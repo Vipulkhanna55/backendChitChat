@@ -25,8 +25,9 @@ const connectSocket = (app) => {
         followerUserId: friendInput.followerUserId,
         followedUserId: friendInput.followedUserId,
       });
-      socket.to(socketConnected[friendInput.followedUserId]).emit("followRequest", successRelation);
-
+      socket
+        .to(socketConnected[friendInput.followedUserId])
+        .emit("followRequest", successRelation);
     });
     socket.on("requestAccepted", async (friendInput) => {
       if (friendInput.status === "Accepted") {
