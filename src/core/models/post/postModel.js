@@ -23,7 +23,6 @@ const post = sequelize.define(
       allowNull: false,
     },
   },
-
   {
     freezeTableName: true,
     timestamps: true,
