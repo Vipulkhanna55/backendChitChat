@@ -9,7 +9,7 @@ const DATA_USER_NAME = process.env.DATA_USER_NAME;
 const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
 const DATABASE = process.env.DATABASE;
 const DATABASE_HOST = process.env.DATABASE_HOST;
-const JWT_EXPIRY = process.env.JWT_EXPIRY;
+const JWT_EXPIRY = 86400;
 
 export default {
   SECRET,
