@@ -57,18 +57,11 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: users
- *   description: The user managing API
- * /v1/signup:
+ *   description: The user managing API.
+ * /signup:
  *   post:
  *     summary: Create a new user
  *     tags: [users]
- *     securityDefinitions: {
- *          JWT: {
- *              type: apiKey,
- *              name: token,
- *              in: header,
- *          }
- *      }
  *     requestBody:
  *       required: true
  *       content:

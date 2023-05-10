@@ -42,7 +42,7 @@ const route = express.Router();
  *           type: boolean
  *           description: if user is admin
  *       example:
- *         email: tony22@gmail.com
+ *         email: tonystark2007@gmail.com
  *         password: Vipul@1100
  */
 /**
@@ -50,7 +50,7 @@ const route = express.Router();
  * tags:
  *   name: users
  *   description: The users managing API
- * /v1/login:
+ * /login:
  *   post:
  *     summary: login a user
  *     tags: [users]
