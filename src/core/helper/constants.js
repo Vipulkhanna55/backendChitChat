@@ -18,6 +18,14 @@ const POST_DELETED_SUCCESS = "Successfully deleted post ";
 const MAIL_SUBJECT = "Welcome to 55 chitchat family !";
 const CHAT_FETCH_SUCCESS = "Successfully fetched chat";
 const CHAT_FETCH_FAILED = "Failed to fetch chat";
+const COMMENT_NOT_FOUND = "Comment not found";
+const COMMENT_CREATED_SUCCESS = "Comment created successfully";
+const COMMENT_DELETED_SUCCESS = "Comment deleted successfully";
+const COMMENT_CANNOT_BE_EMPTY = "Comment deleted successfully";
+const COMMENT_UPDATED_SUCCESS = "Comment updated successfully";
+const LIKE_NOT_FOUND = "This post is not liked";
+const LIKE_CREATED_SUCCESS = "Like created successfully";
+const LIKE_DELETED_SUCCESS = "Like deleted successfully";
 
 export default {
   EMAIL_EXIST,
@@ -40,4 +48,12 @@ export default {
   MAIL_SUBJECT,
   CHAT_FETCH_SUCCESS,
   CHAT_FETCH_FAILED,
+  COMMENT_NOT_FOUND,
+  COMMENT_CREATED_SUCCESS,
+  COMMENT_DELETED_SUCCESS,
+  COMMENT_CANNOT_BE_EMPTY,
+  COMMENT_UPDATED_SUCCESS,
+  LIKE_NOT_FOUND,
+  LIKE_CREATED_SUCCESS,
+  LIKE_DELETED_SUCCESS,
 };

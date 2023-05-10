@@ -56,7 +56,7 @@ const getAllPost = async (request, response) => {
     const data = await postModel.getAllPost(userId);
     if (!data) {
       return sendResponse(
-        onError(500, messageResponse.POST_NOT_FOUND),
+        onError(404, messageResponse.POST_NOT_FOUND),
         response
       );
     }

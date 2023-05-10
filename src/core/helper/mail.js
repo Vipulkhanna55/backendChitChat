@@ -24,12 +24,12 @@ const sendMail = async (subject, text, htmlBody, toSend) => {
     });
     transporter.sendMail(info, (error, response) => {
       if (error) {
-        logger.error("error while sending email");
+        console.log("error while sending email");
       }
-      logger.info("email sent successfully");
+      console.log("email sent successfully");
     });
   } catch (error) {
-    logger.error("error while sending email", error);
+    console.log("error while sending email", error);
   }
 };
 const successSignUpText = (name) => {

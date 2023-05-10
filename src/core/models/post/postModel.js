@@ -1,4 +1,3 @@
-import zlib from "zlib";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 import user from "../user/userModel.js";
@@ -24,7 +23,6 @@ const post = sequelize.define(
       allowNull: false,
     },
   },
-
   {
     freezeTableName: true,
     timestamps: true,

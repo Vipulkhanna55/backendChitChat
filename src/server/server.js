@@ -24,7 +24,6 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
 app.use(morgan("tiny"));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan("tiny"));
 
 database.sync({ alter: true });
 

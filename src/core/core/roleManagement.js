@@ -1,5 +1,6 @@
 import jwtDecode from "jwt-decode";
 import { userModel } from "../models";
+import { onError, onSuccess, sendResponse } from "../helper";
 const isAdmin = (func) => {
   return async (request, response) => {
     const token = request.headers["token"];
@@ -7,11 +8,8 @@ const isAdmin = (func) => {
     const userIsAdmin = (
       await userModel.findOne({ where: { email: decoded.email } })
     ).isAdmin;
-    if (userIsAdmin) {
-      console.log("Allowed");
-    } else {
-      console.log("Not allowed to delete");
-      return response.status(409).send("Many many returns of the day");
+    if (!userIsAdmin) {
+      sendResponse(onError(401,"Unauthorized to delete"),response);
     }
     return func(request, response);
   };
