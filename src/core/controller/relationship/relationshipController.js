@@ -31,7 +31,6 @@ const createRelationship = async ({ followerUserId, followedUserId }) => {
         profilePicture: followerUser.profilePicture,
       },
     };
-    console.log(result);
     return result;
   } catch (error) {
     console.log("Error in creating relationship ", error);

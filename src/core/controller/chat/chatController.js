@@ -16,16 +16,7 @@ const chatController = {
         senderId,
         receiverId,
         body,
-        createdAt:
-          today.getFullYear() +
-          ":" +
-          (today.getMonth() + 1) +
-          ":" +
-          today.getDate() +
-          ":" +
-          today.getHours() +
-          ":" +
-          today.getMinutes(),
+        createdAt:new Date().getTime()
       });
       return savedChat.toJSON();
     } catch (error) {
@@ -39,6 +30,15 @@ const chatController = {
         request.query.senderId,
         request.query.receiverId
       );
+      // usersChatData.forEach((element)=>{
+      //   const unix_timestamp = Number(element.createdAt);
+      //   const date = new Date(unix_timestamp * 1000);
+      //   const hours = date.getHours();
+      //   const minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      //   const seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      //   const formattedTime = hours + ":" + minutes.toString().substring(-2) + ":" + seconds.toString().substring(-2);
+      //   element.createdAt = formattedTime;
+      // })
       if (!usersChatData) {
         return sendResponse(
           onError(204, messageResponse.CHAT_FETCH_FAILED),
