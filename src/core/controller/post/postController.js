@@ -21,7 +21,10 @@ const savePost = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 
@@ -46,7 +49,10 @@ const getPost = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 
@@ -68,7 +74,10 @@ const getAllPost = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 
@@ -89,7 +98,10 @@ const updatePost = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 const getFeedPosts = async (request, response) => {
@@ -103,7 +115,10 @@ const getFeedPosts = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 
@@ -125,7 +140,10 @@ const deletePost = async (request, response) => {
     );
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
+    return sendResponse(
+      onError(500, messageResponse.ERROR_FETCHING_DATA),
+      response
+    );
   }
 };
 
