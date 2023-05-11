@@ -13,7 +13,7 @@ const createToken = (email, password) => {
 
 const jwtVerify = async (request, response, next) => {
   try {
-    const token = request.headers["token"];
+    const token = request.headers["authorization"].split(" ")[1];
     if (!token) {
       return sendResponse(onError(403, messageResponse.TOKEN_ERROR), response);
     } else {
