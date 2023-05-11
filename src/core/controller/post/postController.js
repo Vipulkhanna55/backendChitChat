@@ -97,7 +97,7 @@ const updatePost = async (request, response) => {
       response
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     globalCatch(request, error);
     return sendResponse(
       onError(500, messageResponse.ERROR_FETCHING_DATA),
