@@ -17,6 +17,7 @@ import {
   sendMail,
   successSignUpText,
   htmlBody,
+  memcache,
 } from "../../helper";
 
 const createUser = async (request, response) => {
@@ -68,7 +69,10 @@ const updateUser = async (request, response) => {
       request.body;
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
-      return sendResponse(onError(404, messageResponse.USER_NOT_EXIST), response);
+      return sendResponse(
+        onError(404, messageResponse.USER_NOT_EXIST),
+        response
+      );
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -95,7 +99,10 @@ const deleteUser = async (request, response) => {
       where: { id: request.params.id },
     });
     if (!userExists) {
-      return sendResponse(onError(404, messageResponse.USER_NOT_EXIST), response);
+      return sendResponse(
+        onError(404, messageResponse.USER_NOT_EXIST),
+        response
+      );
     }
     const deleteLikes = await likeModel.destroy({
       where: { userId: request.params.id },
@@ -117,7 +124,10 @@ const deleteUser = async (request, response) => {
     const deletedUser = await userModel.destroy({
       where: { id: request.params.id },
     });
-    return sendResponse(onSuccess(200, messageResponse.DELETED_SUCCESS, userExists), response);
+    return sendResponse(
+      onSuccess(200, messageResponse.DELETED_SUCCESS, userExists),
+      response
+    );
   } catch (error) {
     globalCatch(request, error);
     return sendResponse(
@@ -129,10 +139,18 @@ const deleteUser = async (request, response) => {
 
 const getUser = async (request, response) => {
   try {
+    const cachedData = memcache.verifyCache(request.params.id);
+    if (cachedData) {
+      return sendResponse(onSuccess(200, "User details", cachedData), response);
+    }
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
-      return sendResponse(onError(404, messageResponse.USER_NOT_EXIST), response);
+      return sendResponse(
+        onError(404, messageResponse.USER_NOT_EXIST),
+        response
+      );
     }
+    await memcache.setCacheData(request.params.id, user);
     return sendResponse(onSuccess(200, "User details", user), response);
   } catch (error) {
     globalCatch(request, error);
@@ -145,26 +163,15 @@ const getUser = async (request, response) => {
 
 const getUsers = async (request, response) => {
   try {
+    const cachedData = memcache.verifyCache("allUsers");
+    if (cachedData) {
+      return sendResponse(onSuccess(200, "User List", cachedData), response);
+    }
     const users = await userModel.findAll();
+    await memcache.setCacheData("allUsers", users);
     return sendResponse(onSuccess(200, "User List", users), response);
   } catch (error) {
     globalCatch(request, error);
-    return sendResponse(
-      onError(500, messageResponse.ERROR_FETCHING_DATA),
-      response
-    );
-  }
-};
-
-const getUserByName = async (request, response) => {
-  try {
-    const { name } = request.query;
-    const users = await userModel.findAll({ where: { firstName: name } });
-    if (!users) {
-      return sendResponse(onError(404, messageResponse.USER_NOT_EXIST), response);
-    }
-    return sendResponse(onSuccess(200, "User details", users), response);
-  } catch (error) {
     return sendResponse(
       onError(500, messageResponse.ERROR_FETCHING_DATA),
       response
@@ -178,5 +185,4 @@ export default {
   updateUser,
   getUsers,
   getUser,
-  getUserByName,
 };

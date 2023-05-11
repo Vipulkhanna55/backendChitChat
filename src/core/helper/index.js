@@ -6,6 +6,7 @@ import jwt from "./jwt.js";
 import logger from "./logger.js";
 import sendMail, { successSignUpText } from "./mail.js";
 import htmlBody from "./mailHTML.js";
+import memcache from "./caching.js";
 
 export {
   globalCatch,
@@ -19,4 +20,5 @@ export {
   sendMail,
   successSignUpText,
   htmlBody,
+  memcache,
 };

@@ -6,6 +6,7 @@ import {
   sendResponse,
   globalCatch,
   messageResponse,
+  memcache,
 } from "../../helper";
 import { userModel, relationshipModel } from "../../models";
 
@@ -31,7 +32,6 @@ const createRelationship = async ({ followerUserId, followedUserId }) => {
         profilePicture: followerUser.profilePicture,
       },
     };
-    console.log(result);
     return result;
   } catch (error) {
     console.log("Error in creating relationship ", error);
@@ -41,6 +41,13 @@ const createRelationship = async ({ followerUserId, followedUserId }) => {
 const getRelationship = async (request, response) => {
   try {
     const { id } = request.params;
+    const cachedData = memcache.verifyCache(id);
+    if (cachedData) {
+      return sendResponse(
+        onSuccess(200, "relationship found", cachedData),
+        response
+      );
+    }
     const relationship = await relationship.getOne({
       where: { id },
     });
@@ -54,6 +61,11 @@ const getRelationship = async (request, response) => {
     const followedUser = await userModel.findOne({
       where: { id: relationship.followedUserId },
       attributes: ["firstName", "lastName", "profilePicture"],
+    });
+    await memcache.setCacheData(id, {
+      relationship,
+      follower: followerUser,
+      followed: followedUser,
     });
     return sendResponse(
       onSuccess(200, "relationship found", {
@@ -75,6 +87,13 @@ const getRelationship = async (request, response) => {
 const relationRequests = async (request, response) => {
   try {
     const { id } = request.query;
+    const cachedData = memcache.verifyCache(id);
+    if (cachedData) {
+      return sendResponse(
+        onSuccess(200, "relationship found", cachedData),
+        response
+      );
+    }
     const relations = await relationship.getMany({
       where: { followedUserId: id, isRequestAccepted: false },
     });
@@ -84,6 +103,9 @@ const relationRequests = async (request, response) => {
         attributes: ["id", "firstName", "lastName", "profilePicture"],
       });
       return follower.dataValues;
+    });
+    await memcache.setCacheData(id, {
+      followers: await Promise.all(followers),
     });
     return sendResponse(
       onSuccess(200, "relationship found", {
@@ -103,6 +125,13 @@ const relationRequests = async (request, response) => {
 const getAllRelationships = async (request, response) => {
   try {
     const { followedUserId } = request.params;
+    const cachedData = memcache.verifyCache(followedUserId);
+    if (cachedData) {
+      return sendResponse(
+        onSuccess(200, "relationships found", cachedData),
+        response
+      );
+    }
     const user = await userModel.findOne({ where: { id: followedUserId } });
     if (!user) {
       return sendResponse(
@@ -136,6 +165,10 @@ const getAllRelationships = async (request, response) => {
         attributes: ["id", "firstName", "lastName", "profilePicture"],
       });
       return follower.dataValues;
+    });
+    await memcache.setCacheData(followedUserId, {
+      followedUserId: followedUserId,
+      followers: await Promise.all(followers),
     });
     return sendResponse(
       onSuccess(200, "relationships found", {

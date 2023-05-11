@@ -5,12 +5,17 @@ import {
   sendResponse,
   globalCatch,
   messageResponse,
+  memcache,
 } from "../../helper";
 import { postModel, userModel } from "../../models";
 
 const getLikes = async (request, response) => {
   try {
     const { postId } = request.params;
+    const cachedData = memcache.verifyCache(postId);
+    if (cachedData) {
+      return sendResponse(onSuccess(200, "Likes", cachedData), response);
+    }
     const post = await postModel.findOne({ where: { id: postId } });
     if (!post) {
       return sendResponse(
@@ -25,6 +30,7 @@ const getLikes = async (request, response) => {
         response
       );
     }
+    await memcache.setCacheData(postId, likes);
     return sendResponse(onSuccess(200, "Likes", likes), response);
   } catch (error) {
     globalCatch(request, error);

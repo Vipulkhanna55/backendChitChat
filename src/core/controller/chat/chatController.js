@@ -5,6 +5,7 @@ import {
   sendResponse,
   globalCatch,
   messageResponse,
+  memcache,
 } from "../../helper";
 import { logger } from "../../helper";
 
@@ -35,6 +36,13 @@ const chatController = {
 
   async getChat(request, response) {
     try {
+      const cachedData = memcache.verifyCache("chat");
+      if (cachedData) {
+        return sendResponse(
+          onSuccess(200, messageResponse.CHAT_FETCH_SUCCESS, cachedData),
+          response
+        );
+      }
       const usersChatData = await getUsersChat(
         request.query.senderId,
         request.query.receiverId
@@ -45,13 +53,17 @@ const chatController = {
           response
         );
       }
+      await memcache.setCacheData("chat", usersChatData);
       return sendResponse(
         onSuccess(200, messageResponse.CHAT_FETCH_SUCCESS, usersChatData),
         response
       );
     } catch (error) {
       globalCatch(request, error);
-      return sendResponse(onError(500, messageResponse.ERROR_FETCHING_DATA), response);
+      return sendResponse(
+        onError(500, messageResponse.ERROR_FETCHING_DATA),
+        response
+      );
     }
   },
 };
