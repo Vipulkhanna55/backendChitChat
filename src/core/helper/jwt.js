@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
 import config from "../../../config/config.js";
-import { onError, sendResponse } from "./responses.js";
-import { globalCatch } from "./globalCatch.js";
 import messageResponse from "./constants.js";
 
 const createToken = (email, password) => {
@@ -11,25 +9,17 @@ const createToken = (email, password) => {
   return token;
 };
 
-const jwtVerify = async (request, response, next) => {
+const jwtVerify = async (token, secret) => {
   try {
-    const token = request.headers["token"];
-    if (!token) {
-      return sendResponse(onError(403, messageResponse.TOKEN_ERROR), response);
-    } else {
-      jwt.verify(token, config.SECRET, (error, data) => {
-        if (error) {
-          return sendResponse(
-            onError(500, messageResponse.AUTH_FAIL),
-            response
-          );
-        }
-        next();
-      });
-    }
+    jwt.verify(token, secret, (error, data) => {
+      if (error) {
+        console.log(messageResponse.AUTH_FAIL);
+        return;
+      }
+      return data;
+    });
   } catch (error) {
-    globalCatch(request, error);
-    return sendResponse(onError(500, messageResponse.ERROR), response);
+    console.log(messageResponse.ERROR_FETCHING_DATA);
   }
 };
 

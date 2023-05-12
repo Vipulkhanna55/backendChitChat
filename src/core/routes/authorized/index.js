@@ -6,11 +6,11 @@ import relationshipRoute from "./relationship.js";
 import chatRoute from "./chat.js";
 
 export default (app) => {
-  app.use("/v1/user", userRoute);
-  app.use("/v1/comment", CommentRoute);
-  app.use("/v1/post", postRoute);
-  app.use("/v1/relationship", relationshipRoute);
-  app.use("/v1/like", likeRoute);
-  app.use("/v1/chat", chatRoute);
+  app.use("/user", userRoute);
+  app.use("/comment", CommentRoute);
+  app.use("/post", postRoute);
+  app.use("/relationship", relationshipRoute);
+  app.use("/like", likeRoute);
+  app.use("/chat", chatRoute);
   return app;
 };
