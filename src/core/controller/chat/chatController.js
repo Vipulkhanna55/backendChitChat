@@ -11,7 +11,6 @@ import { logger } from "../../helper";
 const chatController = {
   async saveUsersChat(senderId, receiverId, body) {
     try {
-      const today = new Date();
       const savedChat = await saveChat({
         senderId,
         receiverId,
