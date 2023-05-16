@@ -68,16 +68,22 @@ const updateUser = async (request, response) => {
       request.body;
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
-      return sendResponse(onError(404, messageResponse.USER_NOT_EXIST), response);
+      return sendResponse(
+        onError(404, messageResponse.USER_NOT_EXIST),
+        response
+      );
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    await userModel.update(
-      { firstName, lastName, email, password: hashedPassword, profilePicture },
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const password = await bcrypt.hash(password, salt);
+    }
+     await userModel.update(
+      { firstName, lastName, email, password, profilePicture },
       { where: { id: request.params.id } }
     );
+    const updatedUser = await userModel.findByPk(request.params.id);
     return sendResponse(
-      onSuccess(200, messageResponse.UPDATED_SUCCESS, user),
+      onSuccess(200, messageResponse.UPDATED_SUCCESS, updatedUser),
       response
     );
   } catch (error) {
@@ -95,7 +101,10 @@ const deleteUser = async (request, response) => {
       where: { id: request.params.id },
     });
     if (!userExists) {
-      return sendResponse(onError(404, messageResponse.USER_NOT_EXIST), response);
+      return sendResponse(
+        onError(404, messageResponse.USER_NOT_EXIST),
+        response
+      );
     }
     const deleteLikes = await likeModel.destroy({
       where: { userId: request.params.id },
@@ -117,7 +126,10 @@ const deleteUser = async (request, response) => {
     const deletedUser = await userModel.destroy({
       where: { id: request.params.id },
     });
-    return sendResponse(onSuccess(200, messageResponse.DELETED_SUCCESS, userExists), response);
+    return sendResponse(
+      onSuccess(200, messageResponse.DELETED_SUCCESS, userExists),
+      response
+    );
   } catch (error) {
     globalCatch(request, error);
     return sendResponse(
@@ -131,7 +143,10 @@ const getUser = async (request, response) => {
   try {
     const user = await userModel.findByPk(request.params.id);
     if (!user) {
-      return sendResponse(onError(404, messageResponse.USER_NOT_EXIST), response);
+      return sendResponse(
+        onError(404, messageResponse.USER_NOT_EXIST),
+        response
+      );
     }
     return sendResponse(onSuccess(200, "User details", user), response);
   } catch (error) {
@@ -161,7 +176,10 @@ const getUserByName = async (request, response) => {
     const { name } = request.query;
     const users = await userModel.findAll({ where: { firstName: name } });
     if (!users) {
-      return sendResponse(onError(404, messageResponse.USER_NOT_EXIST), response);
+      return sendResponse(
+        onError(404, messageResponse.USER_NOT_EXIST),
+        response
+      );
     }
     return sendResponse(onSuccess(200, "User details", users), response);
   } catch (error) {
