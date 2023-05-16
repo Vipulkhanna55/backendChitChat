@@ -18,7 +18,9 @@ import {
   successSignUpText,
   htmlBody,
   memcache,
+  cachedKey
 } from "../../helper";
+
 
 const createUser = async (request, response) => {
   try {
@@ -139,7 +141,7 @@ const deleteUser = async (request, response) => {
 
 const getUser = async (request, response) => {
   try {
-    const cachedData = memcache.verifyCache(request.params.id, "user");
+    const cachedData = memcache.verifyCache(request.params.id, cachedKey.USER);
     if (cachedData) {
       return sendResponse(onSuccess(200, "User details", cachedData), response);
     }
@@ -150,7 +152,7 @@ const getUser = async (request, response) => {
         response
       );
     }
-    await memcache.setCacheData(request.params.id, user, "user");
+    await memcache.setCacheData(request.params.id, user, cachedKey.USER);
     return sendResponse(onSuccess(200, "User details", user), response);
   } catch (error) {
     globalCatch(request, error);
@@ -163,12 +165,12 @@ const getUser = async (request, response) => {
 
 const getUsers = async (request, response) => {
   try {
-    const cachedData = memcache.verifyCache("allUsers", "user");
+    const cachedData = memcache.verifyCache("allUsers", cachedKey.USER);
     if (cachedData) {
       return sendResponse(onSuccess(200, "User List", cachedData), response);
     }
     const users = await userModel.findAll();
-    await memcache.setCacheData("allUsers", users, "user");
+    await memcache.setCacheData("allUsers", users, cachedKey.USER);
     return sendResponse(onSuccess(200, "User List", users), response);
   } catch (error) {
     globalCatch(request, error);

@@ -6,6 +6,7 @@ import {
   globalCatch,
   messageResponse,
   memcache,
+  cachedKey
 } from "../../helper";
 
 const savePost = async (request, response) => {
@@ -32,7 +33,7 @@ const savePost = async (request, response) => {
 const getPost = async (request, response) => {
   try {
     const { id } = request.query;
-    const cachedData = memcache.verifyCache(id, "post");
+    const cachedData = memcache.verifyCache(id, cachedKey.POST);
     if (cachedData) {
       return sendResponse(
         onSuccess(200, messageResponse.POST_FOUND_SUCCESS, cachedData),
@@ -50,7 +51,7 @@ const getPost = async (request, response) => {
     const like = await postModel.getPostLikes(id);
     const post = await postModel.findOnePost(id);
     const postData = { ...post.dataValues, comment, like };
-    await memcache.setCacheData(id, postData, "post");
+    await memcache.setCacheData(id, postData, cachedKey.POST);
     return sendResponse(
       onSuccess(200, messageResponse.POST_FOUND_SUCCESS, postData),
       response
@@ -67,7 +68,7 @@ const getPost = async (request, response) => {
 const getAllPost = async (request, response) => {
   try {
     const { userId } = request.query;
-    const cachedData = memcache.verifyCache(userId, "post");
+    const cachedData = memcache.verifyCache(userId, cachedKey.POST);
     if (cachedData) {
       return sendResponse(
         onSuccess(200, messageResponse.POST_FOUND_SUCCESS, cachedData),
@@ -83,7 +84,7 @@ const getAllPost = async (request, response) => {
     }
     const userCommentData = await postModel.getAllPostsComments(data);
     const userData = await postModel.getAllPostsLikes(userCommentData);
-    await memcache.setCacheData(userId, userData, "post");
+    await memcache.setCacheData(userId, userData, cachedKey.POST);
     return sendResponse(
       onSuccess(200, messageResponse.POST_FOUND_SUCCESS, userData),
       response
@@ -123,7 +124,7 @@ const updatePost = async (request, response) => {
 };
 const getFeedPosts = async (request, response) => {
   try {
-    const cachedData = memcache.verifyCache("feedPosts", "post");
+    const cachedData = memcache.verifyCache("feedPosts", cachedKey.POST);
     if (cachedData) {
       return sendResponse(
         onSuccess(200, messageResponse.POST_FOUND_SUCCESS, cachedData),
@@ -133,7 +134,7 @@ const getFeedPosts = async (request, response) => {
     const feedPosts = await postModel.findFeed();
     const feedCommentData = await postModel.getAllPostsComments(feedPosts);
     const feedData = await postModel.getAllPostsLikes(feedCommentData);
-    await memcache.setCacheData("feedPosts", feedData, "post");
+    await memcache.setCacheData("feedPosts", feedData, cachedKey.POST);
     return sendResponse(
       onSuccess(200, messageResponse.POST_FOUND_SUCCESS, feedData),
       response

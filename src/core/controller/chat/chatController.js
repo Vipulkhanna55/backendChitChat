@@ -6,6 +6,7 @@ import {
   globalCatch,
   messageResponse,
   memcache,
+  cachedKey
 } from "../../helper";
 import { logger } from "../../helper";
 
@@ -36,7 +37,7 @@ const chatController = {
 
   async getChat(request, response) {
     try {
-      const cachedData = memcache.verifyCache("chat", "chat");
+      const cachedData = memcache.verifyCache("chat", cachedKey.CHAT);
       if (cachedData) {
         return sendResponse(
           onSuccess(200, messageResponse.CHAT_FETCH_SUCCESS, cachedData),
@@ -53,7 +54,7 @@ const chatController = {
           response
         );
       }
-      await memcache.setCacheData("chat", usersChatData, "chat");
+      await memcache.setCacheData("chat", usersChatData, cachedKey.CHAT);
       return sendResponse(
         onSuccess(200, messageResponse.CHAT_FETCH_SUCCESS, usersChatData),
         response

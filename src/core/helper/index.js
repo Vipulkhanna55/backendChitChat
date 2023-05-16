@@ -7,6 +7,7 @@ import logger from "./logger.js";
 import sendMail, { successSignUpText } from "./mail.js";
 import htmlBody from "./mailHTML.js";
 import memcache from "./caching.js";
+import cachedKey from "./cachedKey.js";
 
 export {
   globalCatch,
@@ -21,4 +22,5 @@ export {
   successSignUpText,
   htmlBody,
   memcache,
+  cachedKey
 };

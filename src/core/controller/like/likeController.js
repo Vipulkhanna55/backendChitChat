@@ -12,7 +12,7 @@ import { postModel, userModel } from "../../models";
 const getLikes = async (request, response) => {
   try {
     const { postId } = request.params;
-    const cachedData = memcache.verifyCache(postId, "like");
+    const cachedData = memcache.verifyCache(postId, cachedKey.LIKE);
     if (cachedData) {
       return sendResponse(onSuccess(200, "Likes", cachedData), response);
     }
@@ -30,7 +30,7 @@ const getLikes = async (request, response) => {
         response
       );
     }
-    await memcache.setCacheData(postId, likes, "like");
+    await memcache.setCacheData(postId, likes, cachedKey.LIKE);
     return sendResponse(onSuccess(200, "Likes", likes), response);
   } catch (error) {
     globalCatch(request, error);
