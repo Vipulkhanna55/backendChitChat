@@ -41,7 +41,7 @@ const createRelationship = async ({ followerUserId, followedUserId }) => {
 const getRelationship = async (request, response) => {
   try {
     const { id } = request.params;
-    const cachedData = memcache.verifyCache(id);
+    const cachedData = memcache.verifyCache(id, "relationship");
     if (cachedData) {
       return sendResponse(
         onSuccess(200, "relationship found", cachedData),
@@ -66,7 +66,7 @@ const getRelationship = async (request, response) => {
       relationship,
       follower: followerUser,
       followed: followedUser,
-    });
+    }, "relationship");
     return sendResponse(
       onSuccess(200, "relationship found", {
         relationship,
@@ -87,7 +87,7 @@ const getRelationship = async (request, response) => {
 const relationRequests = async (request, response) => {
   try {
     const { id } = request.query;
-    const cachedData = memcache.verifyCache(id);
+    const cachedData = memcache.verifyCache(id, "relationship");
     if (cachedData) {
       return sendResponse(
         onSuccess(200, "relationship found", cachedData),
@@ -106,7 +106,7 @@ const relationRequests = async (request, response) => {
     });
     await memcache.setCacheData(id, {
       followers: await Promise.all(followers),
-    });
+    }, "relationship");
     return sendResponse(
       onSuccess(200, "relationship found", {
         followers: await Promise.all(followers),
@@ -125,7 +125,7 @@ const relationRequests = async (request, response) => {
 const getAllRelationships = async (request, response) => {
   try {
     const { followedUserId } = request.params;
-    const cachedData = memcache.verifyCache(followedUserId);
+    const cachedData = memcache.verifyCache(followedUserId, "relationship");
     if (cachedData) {
       return sendResponse(
         onSuccess(200, "relationships found", cachedData),
@@ -169,7 +169,7 @@ const getAllRelationships = async (request, response) => {
     await memcache.setCacheData(followedUserId, {
       followedUserId: followedUserId,
       followers: await Promise.all(followers),
-    });
+    }), "relationship";
     return sendResponse(
       onSuccess(200, "relationships found", {
         followedUserId: followedUserId,

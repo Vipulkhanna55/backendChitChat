@@ -36,7 +36,7 @@ const chatController = {
 
   async getChat(request, response) {
     try {
-      const cachedData = memcache.verifyCache("chat");
+      const cachedData = memcache.verifyCache("chat", "chat");
       if (cachedData) {
         return sendResponse(
           onSuccess(200, messageResponse.CHAT_FETCH_SUCCESS, cachedData),
@@ -53,7 +53,7 @@ const chatController = {
           response
         );
       }
-      await memcache.setCacheData("chat", usersChatData);
+      await memcache.setCacheData("chat", usersChatData, "chat");
       return sendResponse(
         onSuccess(200, messageResponse.CHAT_FETCH_SUCCESS, usersChatData),
         response

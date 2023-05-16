@@ -49,7 +49,7 @@ const createComment = async (request, response) => {
 const getComments = async (request, response) => {
   try {
     const { postId } = request.params;
-    const cachedData = memcache.verifyCache(postId);
+    const cachedData = memcache.verifyCache(postId, "comment");
     if (cachedData) {
       return sendResponse(
         onSuccess(200, "Comments List", cachedData),
@@ -73,7 +73,7 @@ const getComments = async (request, response) => {
         },
       ],
     });
-    await memcache.setCacheData(postId, comments);
+    await memcache.setCacheData(postId, comments, "comment");
     return sendResponse(onSuccess(200, "Comments List", comments), response);
   } catch (error) {
     globalCatch(request, error);
@@ -86,7 +86,7 @@ const getComments = async (request, response) => {
 
 const getOneComment = async (request, response) => {
   try {
-    const cachedData = memcache.verifyCache(request.params.id);
+    const cachedData = memcache.verifyCache(request.params.id, "comment");
     if (cachedData) {
       return sendResponse(
         onSuccess(200, "Found comment", cachedData),
@@ -102,7 +102,7 @@ const getOneComment = async (request, response) => {
         response
       );
     }
-    await memcache.setCacheData(request.params.id, foundComment);
+    await memcache.setCacheData(request.params.id, foundComment, "comment");
     return sendResponse(
       onSuccess(200, "Found comment", foundComment),
       response

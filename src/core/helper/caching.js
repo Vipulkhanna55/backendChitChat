@@ -2,12 +2,21 @@ import { Client } from "memjs";
 
 const memcached = Client.create();
 
-const setCacheData = async (id, data) => {
-  return await memcached.set(id, JSON.stringify(data), { expires: 12 });
+const components = {
+  like: Client.create(),
+  post: Client.create(),
+  user: Client.create(),
+  comment: Client.create(),
+  relationship: Client.create(),
+  chat: Client.create(),
 };
 
-const verifyCache = (id) => {
-  memcached.get(id, (err, val) => {
+const setCacheData = async (id, data, model) => {
+  return await components[model].set(id, JSON.stringify(data), { expires: 12 });
+};
+
+const verifyCache = (id, model) => {
+  components[model].get(id, (err, val) => {
     if (err) {
       console.log(err);
       return;

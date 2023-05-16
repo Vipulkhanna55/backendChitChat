@@ -139,7 +139,7 @@ const deleteUser = async (request, response) => {
 
 const getUser = async (request, response) => {
   try {
-    const cachedData = memcache.verifyCache(request.params.id);
+    const cachedData = memcache.verifyCache(request.params.id, "user");
     if (cachedData) {
       return sendResponse(onSuccess(200, "User details", cachedData), response);
     }
@@ -150,7 +150,7 @@ const getUser = async (request, response) => {
         response
       );
     }
-    await memcache.setCacheData(request.params.id, user);
+    await memcache.setCacheData(request.params.id, user, "user");
     return sendResponse(onSuccess(200, "User details", user), response);
   } catch (error) {
     globalCatch(request, error);
@@ -163,12 +163,12 @@ const getUser = async (request, response) => {
 
 const getUsers = async (request, response) => {
   try {
-    const cachedData = memcache.verifyCache("allUsers");
+    const cachedData = memcache.verifyCache("allUsers", "user");
     if (cachedData) {
       return sendResponse(onSuccess(200, "User List", cachedData), response);
     }
     const users = await userModel.findAll();
-    await memcache.setCacheData("allUsers", users);
+    await memcache.setCacheData("allUsers", users, "user");
     return sendResponse(onSuccess(200, "User List", users), response);
   } catch (error) {
     globalCatch(request, error);
