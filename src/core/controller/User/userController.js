@@ -73,14 +73,17 @@ const updateUser = async (request, response) => {
         response
       );
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    await userModel.update(
-      { firstName, lastName, email, password: hashedPassword, profilePicture },
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const password = await bcrypt.hash(password, salt);
+    }
+     await userModel.update(
+      { firstName, lastName, email, password, profilePicture },
       { where: { id: request.params.id } }
     );
+    const updatedUser = await userModel.findByPk(request.params.id);
     return sendResponse(
-      onSuccess(200, messageResponse.UPDATED_SUCCESS, user),
+      onSuccess(200, messageResponse.UPDATED_SUCCESS, updatedUser),
       response
     );
   } catch (error) {

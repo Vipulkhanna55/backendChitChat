@@ -17,6 +17,7 @@ const jwtVerify = async (request, response, next) => {
     if (!token) {
       return sendResponse(onError(403, messageResponse.TOKEN_ERROR), response);
     } else {
+      
       jwt.verify(token, config.SECRET, (error, data) => {
         if (error) {
           return sendResponse(

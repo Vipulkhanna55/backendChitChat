@@ -3,7 +3,7 @@ import { userModel } from "../models";
 import { onError, onSuccess, sendResponse } from "../helper";
 const isAdmin = (func) => {
   return async (request, response) => {
-    const token = request.headers["token"];
+    const token = request.headers["authorization"].split(" ")[1];
     var decoded = jwtDecode(token);
     const userIsAdmin = (
       await userModel.findOne({ where: { email: decoded.email } })
