@@ -1,23 +1,9 @@
 import server from "../../server/index.js";
 import request from "supertest";
 import { userModel } from "../models/index.js";
-
+import beforeAll from './token.js';
 
 export const userTestSuite = () => {
-let token;
-
-beforeAll((done) => {
-  request(server)
-    .post("/login")
-    .send({
-      email: "sam895@gmail.com",
-      password: "Sam123@@@",
-    })
-    .end((err, response) => {
-      token = response.body.data.token; // save the token!
-      done();
-    });
-});
 
 describe("POST /signup", () => {
   describe("given username, email, gender & password", () => {
@@ -78,7 +64,7 @@ describe("PATCH /user/:id", () => {
       });
       const response = await request(server)
         .patch(`/user/${foundUser.id}`)
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           firstName: "Dwyane",
         });
@@ -89,7 +75,7 @@ describe("PATCH /user/:id", () => {
     test("should respond with status code 404", async () => {
       const response = await request(server)
         .patch("/user/6de6f0a8-56a2-412b-b703-608ae99d34f7")
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           firstName: "Dwyane",
         });
@@ -103,7 +89,7 @@ describe("PATCH /user/:id", () => {
 //     test("should respond with status code 404", async () => {
 //       const response = await request(server)
 //         .delete(`/user/654e562f-c9c0-4f05-b4e5-9a8544d2d3c5`)
-//         .set("authorization", `Bearer ${token}`);
+//         .set("authorization", `Bearer ${await beforeAll()}`);
 //       expect(response.statusCode).toBe(404);
 //     });
 //   });
@@ -114,7 +100,7 @@ describe("PATCH /user/:id", () => {
 //       });
 //       const response = await request(server)
 //         .delete(`/user/${foundUser.id}`)
-//         .set("authorization", `Bearer ${token}`);
+//         .set("authorization", `Bearer ${await beforeAll()}`);
 //       expect(response.statusCode).toBe(200);
 //     });
 //   });
@@ -125,7 +111,7 @@ describe("GET /user/:id", () => {
     test("should respond with status code 404", async () => {
       const response = await request(server)
         .get(`/user/654e562f-c9c0-4f05-b4e5-9a8544d2d3c5`)
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(404);
     });
   });
@@ -136,7 +122,7 @@ describe("GET /user/:id", () => {
       });
       const response = await request(server)
         .get(`/user/${foundUser.id}`)
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(200);
     });
   });
@@ -146,7 +132,7 @@ describe("GET /user", () => {
   test("should return all the users in database", async () => {
     const response = await request(server)
       .get(`/user`)
-      .set("authorization", `Bearer ${token}`);
+      .set("authorization", `Bearer ${await beforeAll()}`);
     expect(response.statusCode).toBe(200);
   });
 });

@@ -1,22 +1,9 @@
 import server from "../../server/index.js";
 import request from "supertest";
 import { postModel, userModel, likeModel } from "../models/index.js";
+import beforeAll from './token.js';
 
 export const likeTestSuite = () => {
-  let token;
-
-  beforeAll((done) => {
-    request(server)
-      .post("/login")
-      .send({
-        email: "sam895@gmail.com",
-        password: "Sam123@@@",
-      })
-      .end((err, response) => {
-        token = response.body.data.token; // save the token!
-        done();
-      });
-  });
 
   describe("POST /like", () => {
     describe("when the user does not exist", () => {
@@ -26,7 +13,7 @@ export const likeTestSuite = () => {
         });
         const response = await request(server)
           .post("/like")
-          .set("authorization", `Bearer ${token}`)
+          .set("authorization", `Bearer ${await beforeAll()}`)
           .send({
             userId: "cbe75e20-0f28-406d-8852-d8b7e1d7fb3c",
             postId: post.id,
@@ -41,7 +28,7 @@ export const likeTestSuite = () => {
         });
         const response = await request(server)
           .post("/like")
-          .set("authorization", `Bearer ${token}`)
+          .set("authorization", `Bearer ${await beforeAll()}`)
           .send({
             postId: "cbe75e20-0f28-406d-8852-d8b7e1d7fb3c",
             userId: user.id,
@@ -59,7 +46,7 @@ export const likeTestSuite = () => {
         });
         const response = await request(server)
           .post("/like")
-          .set("authorization", `Bearer ${token}`)
+          .set("authorization", `Bearer ${await beforeAll()}`)
           .send({
             postId: post.id,
             userId: user.id,
@@ -74,7 +61,7 @@ export const likeTestSuite = () => {
       test("Should respond with status code 404", async () => {
         const response = await request(server)
           .get("/like/cbe75e20-0f28-406d-8852-d8b7e1d7fb3c")
-          .set("authorization", `Bearer ${token}`);
+          .set("authorization", `Bearer ${await beforeAll()}`);
         expect(response.statusCode).toBe(404);
       });
     });
@@ -85,7 +72,7 @@ export const likeTestSuite = () => {
         });
         const response = await request(server)
           .get(`/like/${post.id}`)
-          .set("authorization", `Bearer ${token}`);
+          .set("authorization", `Bearer ${await beforeAll()}`);
         expect(response.statusCode).toBe(200);
       });
     });
@@ -96,7 +83,7 @@ export const likeTestSuite = () => {
       test("should respond with status code 404", async () => {
         const response = await request(server)
           .delete("/like/cbe75e20-0f28-406d-8852-d8b7e1d7fb3c")
-          .set("authorization", `Bearer ${token}`);
+          .set("authorization", `Bearer ${await beforeAll()}`);
         expect(response.statusCode).toBe(404);
       });
     });
@@ -110,7 +97,7 @@ export const likeTestSuite = () => {
         });
         const response = await request(server)
           .delete(`/like/${like.id}`)
-          .set("authorization", `Bearer ${token}`);
+          .set("authorization", `Bearer ${await beforeAll()}`);
         expect(response.statusCode).toBe(200);
       });
     });

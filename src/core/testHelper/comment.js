@@ -1,23 +1,9 @@
 import server from "../../server/index.js";
 import request from "supertest";
 import { postModel, userModel, commentModel } from "../models/index.js";
+import beforeAll from './token.js';
 
 export const commentTestSuite = () => {
-
-let token;
-
-beforeAll((done) => {
-  request(server)
-    .post("/login")
-    .send({
-      email: "sam895@gmail.com",
-      password: "Sam123@@@",
-    })
-    .end((err, response) => {
-      token = response.body.data.token; // save the token!
-      done();
-    });
-});
 
 describe("POST /comment", () => {
   describe("If the comment body is empty", () => {
@@ -30,7 +16,7 @@ describe("POST /comment", () => {
       });
       const response = await request(server)
         .post("/comment")
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           userId: user.id,
           postId: post.id,
@@ -46,7 +32,7 @@ describe("POST /comment", () => {
       });
       const response = await request(server)
         .post("/comment")
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           userId: "cbe75e20-0f28-406d-8852-d8b7e1d7fb3c",
           body: "This is a new comment",
@@ -62,7 +48,7 @@ describe("POST /comment", () => {
       });
       const response = await request(server)
         .post("/comment")
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           postId: "cbe75e20-0f28-406d-8852-d8b7e1d7fb3c",
           body: "This is a new comment",
@@ -81,7 +67,7 @@ describe("POST /comment", () => {
       });
       const response = await request(server)
         .post("/comment")
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           postId: post.id,
           body: "This is a new comment",
@@ -100,7 +86,7 @@ describe("GET /comment/all/:postId", () => {
       });
       const response = await request(server)
         .get("/comment/all/cbe75e20-0f28-406d-8852-d8b7e1d7fb3c")
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(404);
     });
   });
@@ -111,7 +97,7 @@ describe("GET /comment/all/:postId", () => {
       });
       const response = await request(server)
         .get(`/comment/all/${post.id}`)
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(200);
     });
   });
@@ -122,7 +108,7 @@ describe("GET /comment/:id", () => {
     test("should respond with status code 404", async () => {
       const response = await request(server)
         .get("/comment/cbe75e20-0f28-406d-8852-d8b7e1d7fb3c")
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(404);
     });
   });
@@ -133,7 +119,7 @@ describe("GET /comment/:id", () => {
       });
       const response = await request(server)
         .get(`/comment/${comment.id}`)
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(200);
     });
   });
@@ -144,7 +130,7 @@ describe("PATCH /comment/:id", () => {
     test("should respond with status code 404", async () => {
       const response = await request(server)
         .patch("/comment/cbe75e20-0f28-406d-8852-d8b7e1d7fb3c")
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           body: "This is a new comment",
         });
@@ -158,7 +144,7 @@ describe("PATCH /comment/:id", () => {
       });
       const response = await request(server)
         .patch(`/comment/${comment.id}`)
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           body: "",
         });
@@ -172,7 +158,7 @@ describe("PATCH /comment/:id", () => {
       });
       const response = await request(server)
         .patch(`/comment/${comment.id}`)
-        .set("authorization", `Bearer ${token}`)
+        .set("authorization", `Bearer ${await beforeAll()}`)
         .send({
           body: "This is a new comment",
         });
@@ -186,7 +172,7 @@ describe("DELETE /comment/:id", () => {
     test("should respond with status code 404", async () => {
       const response = await request(server)
         .delete("/comment/cbe75e20-0f28-406d-8852-d8b7e1d7fb3c")
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(404);
     });
   });
@@ -200,7 +186,7 @@ describe("DELETE /comment/:id", () => {
       });
       const response = await request(server)
         .delete(`/comment/${comment.id}`)
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(200);
     });
   });
@@ -211,7 +197,7 @@ describe("DELETE /comment/all/:postId", () => {
     test("should respond with status code 404", async () => {
       const response = await request(server)
         .delete("/comment/all/cbe75e20-0f28-406d-8852-d8b7e1d7fb3c")
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(404);
     });
   });
@@ -222,7 +208,7 @@ describe("DELETE /comment/all/:postId", () => {
       });
       const response = await request(server)
         .delete(`/comment/all/${post.id}`)
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", `Bearer ${await beforeAll()}`);
       expect(response.statusCode).toBe(200);
     });
   });
