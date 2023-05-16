@@ -1,7 +1,5 @@
 import { Client } from "memjs";
 import cachedKey from './cachedKey.js';
-
-const memcached = Client.create();
  
 const components = {
   [cachedKey.LIKE] : Client.create(),
