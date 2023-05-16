@@ -16,16 +16,7 @@ const chatController = {
         senderId,
         receiverId,
         body,
-        createdAt:
-          today.getFullYear() +
-          ":" +
-          (today.getMonth() + 1) +
-          ":" +
-          today.getDate() +
-          ":" +
-          today.getHours() +
-          ":" +
-          today.getMinutes(),
+        createdAt: new Date().getTime()
       });
       return savedChat.toJSON();
     } catch (error) {

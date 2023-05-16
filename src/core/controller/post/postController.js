@@ -12,7 +12,7 @@ const savePost = async (request, response) => {
     const { body, userId, attachment } = request.body;
     const userExist = await postModel.findOneUser(userId);
     if (!userExist) {
-      return sendResponse(onError(500, messageResponse.INVALID_USER), response);
+      return sendResponse(onError(404, messageResponse.INVALID_USER), response);
     }
     const postData = await postModel.createPost({ body, attachment, userId });
     return sendResponse(
@@ -34,7 +34,7 @@ const getPost = async (request, response) => {
     const data = await postModel.isPostExist(id);
     if (!data) {
       return sendResponse(
-        onError(500, messageResponse.POST_NOT_FOUND),
+        onError(404, messageResponse.POST_NOT_FOUND),
         response
       );
     }
@@ -129,7 +129,7 @@ const deletePost = async (request, response) => {
     const getPostData = await postModel.isPostExist(id);
     if (!getPostData) {
       return sendResponse(
-        onError(500, messageResponse.POST_NOT_FOUND),
+        onError(404, messageResponse.POST_NOT_FOUND),
         response
       );
     }

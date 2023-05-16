@@ -26,16 +26,9 @@ const chat = sequelize.define(
     createdAt: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue:
-        date.getFullYear() +
-        ":" +
-        date.getMonth() +
-        ":" +
-        date.getDate() +
-        ":" +
-        date.getHours() +
-        ":" +
-        date.getMinutes(),
+      set(value) {
+        this.setDataValue("createdAt", Math.floor(value / 1000));
+      },
     },
   },
   {
