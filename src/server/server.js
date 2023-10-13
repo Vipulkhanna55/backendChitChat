@@ -34,3 +34,5 @@ authorized(app);
 server.listen(config.PORT, () => {
   logger.info(`listening on port ${config.PORT}`);
 });
+
+console.log("Hello ther");
